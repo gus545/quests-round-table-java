@@ -12,17 +12,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MainTest {
 
     private Main game;
+    private int deckSize;
 
     @BeforeEach
     public void RESP_01_test_setup() {
         game = new Main();
         game.initializeAdventureDeck();
+        deckSize = game.getAdventureDeckSize();
     }
 
     @Test
     @DisplayName("Check if adventure deck size is 100")
     void RESP_01_test_01(){
-        assertEquals(100, game.getAdventureDeckSize(), "There should be 100 adventure cards.");
+        assertEquals(100, deckSize, "There should be 100 adventure cards.");
     }
 
     @Test
@@ -30,6 +32,7 @@ public class MainTest {
     void RESP_01_test_02(){
         int foeCount = 0;
         int weaponCount = 0;
+
 
         List<AdventureCard.Type> weaponTypes = new ArrayList<>();
         weaponTypes.add(AdventureCard.Type.Dagger);
@@ -39,7 +42,8 @@ public class MainTest {
         weaponTypes.add(AdventureCard.Type.Lance);
         weaponTypes.add(AdventureCard.Type.Excalibur);
 
-        for(int i = 0; i < game.getAdventureDeckSize(); i++){
+
+        for(int i = 0; i < deckSize; i++){
             AdventureCard newCard = game.drawAdventureCard();
             if(newCard.getType() == AdventureCard.Type.Foe){
                 foeCount++;
@@ -67,7 +71,7 @@ public class MainTest {
         int f50count = 0;
         int f70count = 0;
 
-        for (int i = 0; i<game.getAdventureDeckSize(); i++){
+        for (int i = 0; i<deckSize; i++){
             AdventureCard newCard = game.drawAdventureCard();
             if(newCard.getType()==AdventureCard.Type.Foe){
                 switch (newCard.getValue()){
@@ -128,7 +132,7 @@ public class MainTest {
         int lanceCount = 0;
         int excaliburCount = 0;
 
-        for (int i = 0; i < game.getAdventureDeckSize(); i++) {
+        for (int i = 0; i < deckSize; i++) {
             AdventureCard newCard = game.drawAdventureCard();
             if (newCard.getType() == AdventureCard.Type.Dagger && newCard.getValue() == 5) {
                 daggerCount++;
