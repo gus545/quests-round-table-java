@@ -3,14 +3,30 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Deck<T> {
+public class Deck<T> {
 
     protected List<T> cards;
+    protected int deckSize;
 
     public Deck(){
         cards = new ArrayList<>();
+        deckSize = 0;
     }
 
+    public void addCard(T card){
+        cards.add(card);
+        deckSize++;
+    }
+
+    public T drawCard(){
+
+        T card = cards.removeFirst();
+        deckSize--;
+        return card;
+    }
+    public int getSize(){
+        return deckSize;
+    }
 
 
 }
