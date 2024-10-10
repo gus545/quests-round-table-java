@@ -1,4 +1,5 @@
 import org.example.AdventureCard;
+import org.example.EventCard;
 import org.example.Main;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,19 +13,24 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MainTest {
 
     private Main game;
-    private int deckSize;
+    private int adventureDeckSize;
+    private int eventDeckSize;
 
     @BeforeEach
     public void RESP_01_test_setup() {
         game = new Main();
         game.initializeAdventureDeck();
-        deckSize = game.getAdventureDeckSize();
+        adventureDeckSize = game.getAdventureDeckSize();
+
+        game.initializeEventDeck();
+        eventDeckSize = game.getEventDeckSize();
+
     }
 
     @Test
     @DisplayName("Check if adventure deck size is 100")
     void RESP_01_test_01(){
-        assertEquals(100, deckSize, "There should be 100 adventure cards.");
+        assertEquals(100, adventureDeckSize, "There should be 100 adventure cards.");
     }
 
     @Test
@@ -43,7 +49,7 @@ public class MainTest {
         weaponTypes.add(AdventureCard.Type.Excalibur);
 
 
-        for(int i = 0; i < deckSize; i++){
+        for(int i = 0; i < adventureDeckSize; i++){
             AdventureCard newCard = game.drawAdventureCard();
             if(newCard.getType() == AdventureCard.Type.Foe){
                 foeCount++;
@@ -71,7 +77,7 @@ public class MainTest {
         int f50count = 0;
         int f70count = 0;
 
-        for (int i = 0; i<deckSize; i++){
+        for (int i = 0; i<adventureDeckSize; i++){
             AdventureCard newCard = game.drawAdventureCard();
             if(newCard.getType()==AdventureCard.Type.Foe){
                 switch (newCard.getValue()){
@@ -132,7 +138,7 @@ public class MainTest {
         int lanceCount = 0;
         int excaliburCount = 0;
 
-        for (int i = 0; i < deckSize; i++) {
+        for (int i = 0; i < adventureDeckSize; i++) {
             AdventureCard newCard = game.drawAdventureCard();
             if (newCard.getType() == AdventureCard.Type.Dagger && newCard.getValue() == 5) {
                 daggerCount++;
@@ -163,4 +169,98 @@ public class MainTest {
         assertEquals(2, excaliburCount, "There should be 2 E30 excaliburs in the deck.");
     }
 
+    @Test
+    @DisplayName("Check if event deck has 17 cards total")
+    public void RESP_02_test_01(){
+        assertEquals(17, eventDeckSize);
+    }
+
+    @Test
+    @DisplayName("Check if event deck has 5 E cards and 12 Q cards")
+    public void RESP_02_test_02() {
+        int eCount = 0;
+        int qCount = 0;
+
+        for (int i = 0; i < eventDeckSize; i++) {
+            EventCard newCard = game.drawEventCard();
+            if (newCard.getType() == EventCard.Type.Quest) {
+                qCount++;
+            }
+            if (newCard.getType() == EventCard.Type.Plague ||
+                    newCard.getType() == EventCard.Type.QueensFavor ||
+                    newCard.getType() == EventCard.Type.Prosperity) {
+                eCount++;
+            }
+        }
+
+        assertEquals(12, qCount, "There should be 12 Q cards in the event deck.");
+        assertEquals(5, eCount, "There should be 5 E cards in the event deck.");
+    }
+
+    @Test
+    @DisplayName("Check for correct number of Q cards of each stage value.")
+    public void RESP_02_test_03(){
+        int q2Count = 0;
+        int q3Count = 0;
+        int q4Count = 0;
+        int q5Count = 0;
+
+        for (int i = 0; i < eventDeckSize; i++) {
+            EventCard newCard = game.drawEventCard();
+
+            if (newCard.getType() == EventCard.Type.Quest) {
+                switch (newCard.getStages()) {
+                    case 2:
+                        q2Count++;
+                        break;
+                    case 3:
+                        q3Count++;
+                        break;
+                    case 4:
+                        q4Count++;
+                        break;
+                    case 5:
+                        q5Count++;
+                        break;
+                }
+            }
+        }
+
+        assertEquals(3, q2Count, "There should be 3 Q2 quest cards in the deck.");
+        assertEquals(4, q3Count, "There should be 4 Q3 quest cards in the deck.");
+        assertEquals(3, q4Count, "There should be 3 Q4 quest cards in the deck.");
+        assertEquals(2, q5Count, "There should be 2 Q5 quest cards in the deck.");
+
+    }
+
+    @Test
+    @DisplayName("Check for correct number of each type of E card.")
+    public void RESP_02_test_04(){
+        int plagueCount = 0;
+        int queensFavorCount = 0;
+        int prosperityCount = 0;
+
+        // Loop through the deck size and count each event card by type
+        for (int i = 0; i < eventDeckSize; i++) {
+            EventCard newCard = game.drawEventCard();
+
+            switch (newCard.getType()) {
+                case EventCard.Type.Plague:
+                    plagueCount++;
+                    break;
+                case EventCard.Type.QueensFavor:
+                    queensFavorCount++;
+                    break;
+                case EventCard.Type.Prosperity:
+                    prosperityCount++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        assertEquals(1, plagueCount, "There should be 1 Plague card in the deck.");
+        assertEquals(2, queensFavorCount, "There should be 2 Queen's Favor cards in the deck.");
+        assertEquals(2, prosperityCount, "There should be 2 Prosperity cards in the deck.");
+    }
 }

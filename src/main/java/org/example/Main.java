@@ -71,4 +71,16 @@ public class Main {
     public AdventureCard drawAdventureCard(){
         return adventureDeck.drawCard();
     }
+
+    public EventCard drawEventCard(){
+        return new EventCard();
+    }
+
+    public void initializeEventDeck(){
+
+    }
+
+    public int getEventDeckSize(){
+        return 0;
+    }
 }
