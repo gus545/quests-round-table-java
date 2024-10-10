@@ -263,4 +263,33 @@ public class MainTest {
         assertEquals(2, queensFavorCount, "There should be 2 Queen's Favor cards in the deck.");
         assertEquals(2, prosperityCount, "There should be 2 Prosperity cards in the deck.");
     }
+
+    @Test
+    @DisplayName("Check if shuffling changes order of decks")
+    public void RESP_03_test_01(){
+        Main game2 = new Main();
+        game2.initializeAdventureDeck();
+        game2.initializeEventDeck();
+
+        boolean adventureDecksAreDifferent = false;
+        boolean eventDecksAreDifferent = false;
+
+        for(int i =0; i<adventureDeckSize; i++){
+            AdventureCard newCard1 = game.drawAdventureCard();
+            AdventureCard newCard2 = game2.drawAdventureCard();
+
+            if(newCard1.getType()!=newCard2.getType() || newCard1.getValue()!= newCard2.getValue()) adventureDecksAreDifferent = true;
+        }
+
+        for(int i =0; i<eventDeckSize; i++){
+            EventCard newCard1 = game.drawEventCard();
+            EventCard newCard2 = game2.drawEventCard();
+
+            if(newCard1.getType()!=newCard2.getType() || newCard1.getStages()!= newCard2.getStages()) eventDecksAreDifferent = true;
+        }
+
+        assertTrue(adventureDecksAreDifferent,"Adventure decks should be different in at least one position.");
+        assertTrue(eventDecksAreDifferent, "Event decks should be different in at least one position.");
+
+    }
 }
