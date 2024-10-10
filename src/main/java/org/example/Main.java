@@ -18,6 +18,7 @@ public class Main {
     public void initializeAdventureDeck(){
         addFoeCards();
         addWeaponCards();
+        adventureDeck.shuffleCards();
     }
 
     private void addFoeCards(){
@@ -80,6 +81,7 @@ public class Main {
     public void initializeEventDeck(){
         addQCards();
         addECards();
+        eventDeck.shuffleCards();
     }
 
     private void addQCards(){

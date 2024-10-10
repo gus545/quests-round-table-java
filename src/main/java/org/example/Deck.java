@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Deck<T> {
@@ -26,6 +27,10 @@ public class Deck<T> {
     }
     public int getSize(){
         return deckSize;
+    }
+
+    public void shuffleCards(){
+        Collections.shuffle(cards);
     }
 
 
