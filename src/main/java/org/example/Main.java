@@ -11,6 +11,7 @@ public class Main {
     }
 
     Deck<AdventureCard> adventureDeck = new Deck<>();
+    Deck<EventCard> eventDeck = new Deck<>();
 
 
 
@@ -73,14 +74,33 @@ public class Main {
     }
 
     public EventCard drawEventCard(){
-        return new EventCard();
+        return eventDeck.drawCard();
     }
 
     public void initializeEventDeck(){
+        addQCards();
+        addECards();
+    }
 
+    private void addQCards(){
+        int[] qCardStages = {3,4,3,2};
+
+        for(int i = 0; i<4 ; i++){
+            for(int j =0; j<qCardStages[i]; j++){
+                eventDeck.addCard(new EventCard(i+2));
+            }
+        }
+    }
+
+    private void addECards(){
+        eventDeck.addCard(new EventCard(EventCard.Type.Plague));
+        eventDeck.addCard(new EventCard(EventCard.Type.QueensFavor));
+        eventDeck.addCard(new EventCard(EventCard.Type.QueensFavor));
+        eventDeck.addCard(new EventCard(EventCard.Type.Prosperity));
+        eventDeck.addCard(new EventCard(EventCard.Type.Prosperity));
     }
 
     public int getEventDeckSize(){
-        return 0;
+        return eventDeck.getSize();
     }
 }

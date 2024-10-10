@@ -5,14 +5,24 @@ public class EventCard {
         Quest, Plague, QueensFavor, Prosperity
     }
 
-    public EventCard() {
+    private final Type type;
+    private final int stages; // Used only for quest cards, other cards will have stages = 0
+
+    public EventCard(int stages) {
+        this.type = Type.Quest;
+        this.stages = stages;
+    }
+
+    public EventCard(Type type){
+        this.type = type;
+        this.stages = 0;
     }
 
     public Type getType() {
-        return null;
+        return type;
     }
 
     public int getStages() {
-        return 0;
+        return stages;
     }
 }
