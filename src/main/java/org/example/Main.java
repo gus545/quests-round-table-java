@@ -143,5 +143,17 @@ public class Main {
     }
 
     public void trimPlayerHand(int pNo, Scanner s, PrintWriter p){
+        while(players.get(pNo).getHandSize() > 12){
+            displayPlayerHand(pNo,p);
+            String input = promptInput(s,p,"Enter the index of the card you would like to discard:");
+            discardFromHand(pNo, Integer.parseInt(input)-1);
+        }
+    }
+
+    public String promptInput(Scanner s, PrintWriter p, String str){
+        p.println(str);
+        p.flush();
+
+        return s.nextLine();
     }
 }
