@@ -168,6 +168,12 @@ public class Main {
         return currentPlayer;
     }
     public void endCurrentHotseat(Scanner s, PrintWriter p){
+        String prompt = "Your turn has ended (for now).  Press <return> then let the next player take over:";
+        String str = promptInput(s,p, prompt);
 
+        for(int i = 0; i<50 ; i++) {
+            p.println();
+            p.flush();
+        }
     }
 }
