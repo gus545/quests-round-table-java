@@ -167,4 +167,7 @@ public class Main {
     public int getCurrentPlayer(){
         return currentPlayer;
     }
+    public void endCurrentHotseat(Scanner s, PrintWriter p){
+
+    }
 }

@@ -553,5 +553,32 @@ public class MainTest {
             assertEquals(3, game.getCurrentPlayer(), "Current player should reflect hotseat assignment");
         }
     }
+
+    @Nested
+    class RESP09Tests{
+        StringWriter output;
+        String input;
+        @BeforeEach
+        public void test_setup(){
+            game = new Main();
+            game.initializePlayers();
+            input = "\n";
+            output = new StringWriter();
+            game.giveHotseat(0,new Scanner(input), new PrintWriter(output));
+            game.endCurrentHotseat(new Scanner(input), new PrintWriter(output));
+        }
+
+        @Test
+        @DisplayName("Check user prompt is correct")
+        public void RESP_09_test_01(){
+            assertTrue(output.toString().contains("Your turn has ended (for now).  Press <return> then let the next player take over:"), "Game should prompt user correctly.");
+        }
+
+        @Test
+        @DisplayName("Check screen is cleared.")
+        public void RESP_09_test_02(){
+            assertTrue(output.toString().split("\n").length>=50, "Output should contain at least 50 newlines");
+        }
+    }
 }
 
