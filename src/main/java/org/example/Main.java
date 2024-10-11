@@ -14,7 +14,6 @@ public class Main {
     Deck<EventCard> eventDeck = new Deck<>();
 
 
-
     public void initializeAdventureDeck(){
         addFoeCards();
         addWeaponCards();
@@ -104,5 +103,13 @@ public class Main {
 
     public int getEventDeckSize(){
         return eventDeck.getSize();
+    }
+
+    public void initializePlayers(){
+
+    }
+
+    public int getPlayerHandSize(int pNo){
+        return -1;
     }
 }

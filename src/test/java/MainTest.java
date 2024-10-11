@@ -17,14 +17,12 @@ public class MainTest {
     private int eventDeckSize;
 
     @BeforeEach
-    public void RESP_01_test_setup() {
+    public void test_setup() {
         game = new Main();
         game.initializeAdventureDeck();
         adventureDeckSize = game.getAdventureDeckSize();
-
         game.initializeEventDeck();
         eventDeckSize = game.getEventDeckSize();
-
     }
 
     @Test
@@ -290,6 +288,24 @@ public class MainTest {
 
         assertTrue(adventureDecksAreDifferent,"Adventure decks should be different in at least one position.");
         assertTrue(eventDecksAreDifferent, "Event decks should be different in at least one position.");
+    }
 
+    @Test
+    @DisplayName("Check if each player has hand size 12")
+    public void RESP_04_test_01(){
+        game.initializePlayers();
+        int numPlayers = 4;
+
+        for (int i = 0; i<numPlayers; i++) {
+            assertEquals(12, game.getPlayerHandSize(i),
+                    "P" + (i+1) + " should have a hand size of 12.");
+        }
+    }
+
+    @Test
+    @DisplayName("Check if deck size is correct after dealing 12 cards to each player")
+    public void RESP_04_test_02(){
+        game.initializePlayers();
+        assertEquals(adventureDeckSize - 4 * 12, game.getAdventureDeckSize());
     }
 }
