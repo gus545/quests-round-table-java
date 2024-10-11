@@ -1,10 +1,14 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
 
+    public static final int NUM_PLAYERS = 4;
+    public static final int NUM_CARDS = 12; // starting hand size
 
     public static void main(String[] args) {
 
@@ -12,7 +16,7 @@ public class Main {
 
     Deck<AdventureCard> adventureDeck = new Deck<>();
     Deck<EventCard> eventDeck = new Deck<>();
-
+    List<Player> players = new ArrayList<>();
 
     public void initializeAdventureDeck(){
         addFoeCards();
@@ -106,10 +110,17 @@ public class Main {
     }
 
     public void initializePlayers(){
+        for(int i = 0; i<NUM_PLAYERS; i++) players.add(new Player());
+        dealCards(NUM_CARDS);
+    }
 
+    public void dealCards(int nCards){
+        for(Player p : players){
+            for(int i =0; i<nCards; i++) p.addToHand(drawAdventureCard());
+        }
     }
 
     public int getPlayerHandSize(int pNo){
-        return -1;
+        return players.get(pNo).getHandSize();
     }
 }
