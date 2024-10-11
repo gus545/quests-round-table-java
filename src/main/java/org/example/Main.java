@@ -156,4 +156,11 @@ public class Main {
 
         return s.nextLine();
     }
+
+    public void giveHotseat(int pNo, Scanner s, PrintWriter p){
+    }
+
+    public int getCurrentPlayer(){
+        return -1;
+    }
 }

@@ -517,5 +517,41 @@ public class MainTest {
             assertEquals(2, game.getAdventureDiscardSize(), "Adventure discard pile should be 2");
         }
     }
+
+    @Nested
+    class RESP08Tests{
+        String input;
+        StringWriter output;
+        @BeforeEach
+        public void test_setup(){
+            game = new Main();
+            game.initializePlayers();
+            input="\n";
+            output = new StringWriter();
+            game.giveHotseat(0, new Scanner(input), new PrintWriter(output));
+        }
+
+        @Test
+        @DisplayName("Game correctly displays prompt to player")
+        public void RESP_08_test_01(){
+            assertTrue(output.toString().contains("Press <return> to proceed:"), "Game should display correct prompt.");
+        }
+
+        @Test
+        @DisplayName("Game displays correct player's turn")
+        public void RESP_08_test_02(){
+            assertTrue(output.toString().contains("P1"), "Game should display that it is P1's turn");
+            game.giveHotseat(1, new Scanner(input),new PrintWriter(output));
+            assertTrue(output.toString().contains("P2"), "Game should display that it is P1's turn");
+        }
+
+        @Test
+        @DisplayName("Current player changes to correct value")
+        public void RESP_08_test_03(){
+            assertEquals(0,game.getCurrentPlayer(), "Current player should reflect hotseat assignment");
+            game.giveHotseat(3, new Scanner(input),new PrintWriter(output));
+            assertEquals(3, game.getCurrentPlayer(), "Current player should reflect hotseat assignment");
+        }
+    }
 }
 
