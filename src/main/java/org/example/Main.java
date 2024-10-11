@@ -15,6 +15,7 @@ public class Main {
     Deck<EventCard> eventDeck = new Deck<>();
     Deck<AdventureCard> adventureDiscard = new Deck<>();
     List<Player> players = new ArrayList<>();
+    int currentPlayer;
 
     public void initializeAdventureDeck(){
         addFoeCards();
@@ -158,9 +159,12 @@ public class Main {
     }
 
     public void giveHotseat(int pNo, Scanner s, PrintWriter p){
+        currentPlayer = pNo;
+        String prompt = "It is now P" + (pNo + 1) + "'s turn.  Press <return> to proceed:";
+        String str = promptInput(s,p,prompt);
     }
 
     public int getCurrentPlayer(){
-        return -1;
+        return currentPlayer;
     }
 }
