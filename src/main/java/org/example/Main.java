@@ -13,6 +13,7 @@ public class Main {
 
     Deck<AdventureCard> adventureDeck = new Deck<>();
     Deck<EventCard> eventDeck = new Deck<>();
+    Deck<AdventureCard> adventureDiscard = new Deck<>();
     List<Player> players = new ArrayList<>();
 
     public void initializeAdventureDeck(){
@@ -107,7 +108,7 @@ public class Main {
     }
 
     public int getAdventureDiscardSize(){
-        return -1;
+        return adventureDiscard.getSize();
     }
 
     public void initializePlayers(){
@@ -138,6 +139,6 @@ public class Main {
     }
 
     public void discardFromHand(int playerNo, int cardNo){
-
+        adventureDiscard.addCard(players.get(playerNo).discardCard(cardNo));
     }
 }

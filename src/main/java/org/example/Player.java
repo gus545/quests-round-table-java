@@ -29,4 +29,8 @@ public class Player {
     public List<AdventureCard> getHand(){
         return hand;
     }
+
+    public AdventureCard discardCard(int i){
+        return hand.remove(i);
+    }
 }
