@@ -33,4 +33,7 @@ public class Player {
     public AdventureCard discardCard(int i){
         return hand.remove(i);
     }
+
+    public void overrideShields(int n){
+    }
 }

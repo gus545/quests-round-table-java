@@ -176,4 +176,8 @@ public class Main {
             p.flush();
         }
     }
+
+    public List<Player> getWinners(){
+        return null;
+    }
 }

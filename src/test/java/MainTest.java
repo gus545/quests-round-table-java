@@ -580,5 +580,59 @@ public class MainTest {
             assertTrue(output.toString().split("\n").length>=50, "Output should contain at least 50 newlines");
         }
     }
+
+    @Nested
+    class RESP10Tests{
+
+        List<Player> expectedWinners;
+
+        @BeforeEach
+        public void test_setup(){
+            game = new Main();
+            game.initializePlayers();
+            expectedWinners = new ArrayList<>();
+        }
+
+        @Test
+        @DisplayName("Identify a single winner.")
+        public void RESP_10_test_01(){
+            game.getPlayer(0).overrideShields(0);
+            game.getPlayer(1).overrideShields(4);
+            game.getPlayer(2).overrideShields(9);
+            game.getPlayer(3).overrideShields(5);
+
+            expectedWinners.add(game.getPlayer(2));
+
+            assertEquals(expectedWinners, game.getWinners(), "The only winner should be P3");
+
+        }
+
+        @Test
+        @DisplayName("Identify multiple winners.")
+        public void RESP_10_test_02(){
+            game.getPlayer(0).overrideShields(8);
+            game.getPlayer(1).overrideShields(4);
+            game.getPlayer(2).overrideShields(9);
+            game.getPlayer(3).overrideShields(5);
+
+            expectedWinners.add(game.getPlayer(0));
+            expectedWinners.add(game.getPlayer(2));
+
+            assertEquals(expectedWinners, game.getWinners(), "The winners should be P1 and P3");
+
+
+        }
+
+        @Test
+        @DisplayName("Identify when there are no winners.")
+        public void RESP_10_test_03(){
+            game.getPlayer(0).overrideShields(0);
+            game.getPlayer(1).overrideShields(4);
+            game.getPlayer(2).overrideShields(2);
+            game.getPlayer(3).overrideShields(5);
+
+            assertEquals(expectedWinners, game.getWinners(), "There should be no winners");
+        }
+    }
 }
 
