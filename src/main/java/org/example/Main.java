@@ -1,10 +1,7 @@
 package org.example;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
@@ -128,6 +125,11 @@ public class Main {
     }
 
     public void displayPlayerHand(int pNo, PrintWriter p){
+        List<AdventureCard> hand = players.get(pNo).getHand();
 
+        p.println("P"+(pNo+1)+"'s hand:");
+        for(int i = 0; i < hand.size(); i++){
+            p.println((i + 1) + " - "+ hand.get(i));
+        }
     }
 }

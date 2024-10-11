@@ -13,7 +13,13 @@ public class Player {
     }
 
     public void addToHand(AdventureCard card){
+
         hand.add(card);
+        sortHand();
+    }
+
+    private void sortHand(){
+        hand.sort(new AdventureCardComparator());
     }
 
     public int getHandSize(){
