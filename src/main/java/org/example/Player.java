@@ -7,9 +7,11 @@ public class Player {
 
 
     private final ArrayList<AdventureCard> hand;
+    private int shields;
 
     public Player(){
         hand = new ArrayList<>();
+        shields = 0;
     }
 
     public void addToHand(AdventureCard card){
@@ -35,5 +37,8 @@ public class Player {
     }
 
     public void overrideShields(int n){
+        this.shields = n;
     }
+
+    public int getShields() { return this.shields;}
 }

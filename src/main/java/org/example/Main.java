@@ -178,6 +178,10 @@ public class Main {
     }
 
     public List<Player> getWinners(){
-        return null;
+        List<Player> winners = new ArrayList<>();
+
+        for(Player p : players) if (p.getShields()>=7) winners.add(p);
+
+        return winners;
     }
 }
