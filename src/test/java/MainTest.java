@@ -2,15 +2,13 @@ import org.example.AdventureCard;
 import org.example.EventCard;
 import org.example.Main;
 import org.example.Player;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -443,6 +441,81 @@ public class MainTest {
             assertEquals(expectedHand, game.getPlayer(0).getHand());
         }
 
+    }
+
+    @Nested
+    class RESP07Tests{
+
+        Player player;
+        StringWriter output;
+        String input;
+
+        @BeforeEach
+        public void test_setup(){
+            game = new Main();
+            game.initializePlayers();
+            player = game.getPlayer(0);
+
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur,30));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Lance,20));
+
+            input = "1\n10\n6\n"; //only first 2 inputs should go through
+            output = new StringWriter();
+            game.trimPlayerHand(0,new Scanner(input), new PrintWriter(output));
+        }
+
+
+        @Test
+        @DisplayName("Test if prompt is correct")
+        public void RESP_07_test_01(){
+            assertTrue(output.toString().contains("Enter the index of the card you would like to discard:"), "Should properly prompt user.");
+        }
+
+        @Test
+        @DisplayName("Test if discarded cards match input are discarded")
+        public void RESP_07_test_02(){
+
+            List<AdventureCard> expectedHand = new ArrayList<>();
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,10));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,15));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,15));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,20));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,40));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Horse,10));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Lance,20));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Excalibur,30));
+
+            assertEquals(expectedHand, player.getHand(), "Player should have discarded one F5 and one S10");
+        }
+
+
+        @Test
+        @DisplayName("Test if player ends with 12 cards in hand")
+        public void RESP_07_test_03(){
+            assertEquals(12, player.getHandSize(), "Player should have 12 cards");
+        }
+
+        @Test
+        @DisplayName("Check discard pile size")
+        public void RESP_07_test_04(){
+            assertEquals(2, game.getAdventureDiscardSize(), "Adventure discard pile should be 2");
+        }
     }
 }
 

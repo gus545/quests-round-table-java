@@ -141,4 +141,7 @@ public class Main {
     public void discardFromHand(int playerNo, int cardNo){
         adventureDiscard.addCard(players.get(playerNo).discardCard(cardNo));
     }
+
+    public void trimPlayerHand(int pNo, Scanner s, PrintWriter p){
+    }
 }
