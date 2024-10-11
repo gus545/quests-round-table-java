@@ -1,11 +1,14 @@
 import org.example.AdventureCard;
 import org.example.EventCard;
 import org.example.Main;
+import org.example.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -344,6 +347,63 @@ public class MainTest {
         }
     }
 
+    @Nested
+    class RESP05Tests{
+        Player player;
 
+        @BeforeEach
+        public void test_setup () {
+            game = new Main();
+            game.initializePlayers();
+
+            player = game.getPlayer(0);
+
+            //add out of order cards
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse, 10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur,30));
+        }
+
+        @Test
+        @DisplayName("Check player hand is in sorted order")
+        public void RESP_05_test_01(){
+
+
+            List<AdventureCard> hand = player.getHand();
+
+            List<AdventureCard> expectedSortedHand = new ArrayList<>();
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Foe, 5));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Foe, 10));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Sword, 10));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Horse, 10));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+
+            assertEquals(expectedSortedHand, hand, "Player's hand should be sorted in the expected order.");
+        }
+
+
+
+        @Test
+        @DisplayName("Check all cards in hand are displayed correctly and in order.")
+        public void RESP_05_test_02(){
+
+            StringWriter output = new StringWriter();
+
+            game.displayPlayerHand(0,new PrintWriter(output));
+
+            assertTrue(output.toString().contains("1 - F5"));
+            assertTrue(output.toString().contains("2 - F10"));
+            assertTrue(output.toString().contains("3 - S10"));
+            assertTrue(output.toString().contains("4 - H10"));
+            assertTrue(output.toString().contains("5 - B15"));
+            assertTrue(output.toString().contains("6 - E30"));
+
+
+        }
+    }
 }
 

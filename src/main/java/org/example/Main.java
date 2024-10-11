@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,5 +121,13 @@ public class Main {
 
     public int getPlayerHandSize(int pNo){
         return players.get(pNo).getHandSize();
+    }
+
+    public Player getPlayer(int pNo){
+        return players.get(pNo);
+    }
+
+    public void displayPlayerHand(int pNo, PrintWriter p){
+
     }
 }

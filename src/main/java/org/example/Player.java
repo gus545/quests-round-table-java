@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -17,5 +18,9 @@ public class Player {
 
     public int getHandSize(){
         return hand.size();
+    }
+
+    public List<AdventureCard> getHand(){
+        return hand;
     }
 }
