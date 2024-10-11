@@ -8,7 +8,6 @@ import java.util.Map;
 public class Main {
 
     public static final int NUM_PLAYERS = 4;
-    public static final int NUM_CARDS = 12; // starting hand size
 
     public static void main(String[] args) {
 
@@ -111,7 +110,6 @@ public class Main {
 
     public void initializePlayers(){
         for(int i = 0; i<NUM_PLAYERS; i++) players.add(new Player());
-        dealCards(NUM_CARDS);
     }
 
     public void dealCards(int nCards){
