@@ -405,5 +405,44 @@ public class MainTest {
 
         }
     }
+
+    @Nested
+    class RESP06Tests{
+
+        //all tests assume valid index
+
+        int initialSize;
+        AdventureCard discardedCard;
+
+        @BeforeEach
+        public void test_setup(){
+            game = new Main();
+            game.initializePlayers();
+            discardedCard = new AdventureCard(AdventureCard.Type.Foe,5);
+            game.getPlayer(0).addToHand(discardedCard);
+            game.getPlayer(0).addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            game.getPlayer(0).addToHand(new AdventureCard(AdventureCard.Type.BattleAxe,15));
+
+            initialSize = game.getAdventureDiscardSize();
+            game.discardFromHand(0,0);
+        }
+
+        @Test
+        @DisplayName("Check if discard pile has grown")
+        public void RESP_06_test_01(){
+            assertEquals(initialSize + 1,game.getAdventureDiscardSize() );
+        }
+
+        @Test
+        @DisplayName("Check if player's hand matches expectations")
+        public void RESP_06_test_02(){
+            List<AdventureCard> expectedHand = new ArrayList<>();
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.BattleAxe,15));
+
+            assertEquals(expectedHand, game.getPlayer(0).getHand());
+        }
+
+    }
 }
 

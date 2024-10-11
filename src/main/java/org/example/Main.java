@@ -106,6 +106,10 @@ public class Main {
         return eventDeck.getSize();
     }
 
+    public int getAdventureDiscardSize(){
+        return -1;
+    }
+
     public void initializePlayers(){
         for(int i = 0; i<NUM_PLAYERS; i++) players.add(new Player());
     }
@@ -131,5 +135,9 @@ public class Main {
         for(int i = 0; i < hand.size(); i++){
             p.println((i + 1) + " - "+ hand.get(i));
         }
+    }
+
+    public void discardFromHand(int playerNo, int cardNo){
+
     }
 }
