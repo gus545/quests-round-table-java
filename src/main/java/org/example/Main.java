@@ -14,7 +14,9 @@ public class Main {
     Deck<AdventureCard> adventureDeck = new Deck<>();
     Deck<EventCard> eventDeck = new Deck<>();
     Deck<AdventureCard> adventureDiscard = new Deck<>();
+    Deck<EventCard> eventDiscard = new Deck<>();
     List<Player> players = new ArrayList<>();
+    EventCard.Type currentEvent;
     int currentPlayer;
 
     public void initializeAdventureDeck(){
@@ -204,17 +206,32 @@ public class Main {
 
 
     public void overwriteEventDeck(int i, EventCard card) {
+        eventDeck.setCard(i,card);
     }
 
     public int getEventDiscardSize(){
-        return -1;
+        return eventDiscard.getSize();
     }
 
     public void pullNextEventCard(PrintWriter pw) {
+        EventCard newCard = drawEventCard();
+        EventCard.Type type = newCard.getType();
+        currentEvent = type;
+        eventDiscard.addCard(newCard);
+
+        String base = "A "+ newCard + " card was drawn.  ";
+
+
+        switch (type) {
+            case EventCard.Type.Quest -> pw.println(base);
+            case EventCard.Type.QueensFavor -> pw.println(base + getPlayer(getCurrentPlayer()) + " draws 2 cards.");
+            case EventCard.Type.Prosperity -> pw.println(base + "All players draw 2 cards.");
+            case EventCard.Type.Plague -> pw.println(base + getPlayer(getCurrentPlayer()) + " loses 2 shields.");
+        }
     }
 
 
     public EventCard.Type getCurrentEvent() {
-        return null;
+        return currentEvent;
     }
 }

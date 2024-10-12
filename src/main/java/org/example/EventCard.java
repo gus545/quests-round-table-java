@@ -25,4 +25,14 @@ public class EventCard {
     public int getStages() {
         return stages;
     }
+
+    @Override
+    public String toString(){
+        return switch (type) {
+            case Type.Quest -> "Q" + stages;
+            case Type.QueensFavor -> "Queen's Favor";
+            case Type.Prosperity -> "Prosperity";
+            case Type.Plague -> "Plague";
+        };
+    }
 }

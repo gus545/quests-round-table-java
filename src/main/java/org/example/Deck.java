@@ -33,5 +33,10 @@ public class Deck<T> {
         Collections.shuffle(cards);
     }
 
+    public void setCard(int i, T card){
+        if(cards.isEmpty()) addCard(card);
+        else cards.set(i,card);
+    }
+
 
 }
