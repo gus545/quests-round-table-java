@@ -5,13 +5,18 @@ import java.util.List;
 
 public class Player {
 
+    private static int nextId = 1;
 
     private final ArrayList<AdventureCard> hand;
     private int shields;
+    private final int id;
 
     public Player(){
         hand = new ArrayList<>();
         shields = 0;
+        id = nextId++;
+
+        if (nextId>4) nextId = 1; //breaks if more than 4 players in game
     }
 
     public void addToHand(AdventureCard card){
@@ -41,4 +46,9 @@ public class Player {
     }
 
     public int getShields() { return this.shields;}
+
+    @Override
+    public String toString(){
+        return "P" + this.id;
+    }
 }

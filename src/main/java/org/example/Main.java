@@ -185,5 +185,13 @@ public class Main {
         return winners;
     }
 
-    public void displayWinners(List<Player> winners, PrintWriter p){}
+    public void displayWinners(List<Player> winners, PrintWriter p){
+        StringBuilder winnerString = new StringBuilder();
+        for(Player w : winners) winnerString.append(w).append("  ");
+        p.println("Game has ended.  The winners are:");
+        p.println(winnerString);
+    }
+
+
+
 }
