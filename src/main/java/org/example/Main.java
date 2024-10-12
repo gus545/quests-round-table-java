@@ -193,7 +193,13 @@ public class Main {
     }
 
     public int getNextPlayer(List<Integer> ineligible){
-        return 0;
+        int i = getCurrentPlayer()+1;
+        while(i!=getCurrentPlayer()){
+            if(i>=NUM_PLAYERS) i=0;
+            if(!ineligible.contains(i)) return i;
+            i++;
+        }
+        return i;
     }
 
 
