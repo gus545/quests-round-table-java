@@ -688,5 +688,51 @@ public class MainTest {
             assertTrue(output.toString().contains("P1") && output.toString().contains("P3"), "Display contains winners P1 and P2");
         }
     }
+
+    @Nested
+    class RESP12Tests{
+        String input;
+        StringWriter output;
+        Scanner sc;
+        PrintWriter pw;
+        List<Integer> ineligible;
+        @BeforeEach
+        public void test_setup(){
+            game = new Main();
+            game.initializePlayers();
+            input = "\n\n\n\n\n";
+            output = new StringWriter();
+            pw = new PrintWriter(output);
+            sc = new Scanner(input);
+            game.giveHotseat(0, sc, pw);
+            ineligible = new ArrayList<>();
+        }
+
+        @Test
+        @DisplayName("Game advances to next player's turn with all players eligible")
+        public void RESP_12_test_01(){
+            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            assertEquals(1,game.getCurrentPlayer());
+            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            assertEquals(2,game.getCurrentPlayer());
+            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            assertEquals(3,game.getCurrentPlayer());
+            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            assertEquals(0,game.getCurrentPlayer());
+        }
+
+        @Test
+        @DisplayName("Game advances to next player's turn with multiple players ineligible")
+        public void RESP_12_test_02(){
+
+            ineligible.add(1);
+            ineligible.add(3);
+            game.giveHotseat(game.getNextPlayer(ineligible), sc , pw);
+            assertEquals(2, game.getCurrentPlayer());
+            game.giveHotseat(game.getNextPlayer(ineligible), sc , pw);
+            assertEquals(0, game.getCurrentPlayer());
+
+        }
+    }
 }
 

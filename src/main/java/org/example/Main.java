@@ -192,6 +192,10 @@ public class Main {
         p.println(winnerString);
     }
 
+    public int getNextPlayer(List<Integer> ineligible){
+        return 0;
+    }
+
 
 
 }
