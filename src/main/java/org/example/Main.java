@@ -184,4 +184,6 @@ public class Main {
 
         return winners;
     }
+
+    public void displayWinners(List<Player> winners, PrintWriter p){}
 }

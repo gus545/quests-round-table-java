@@ -634,5 +634,59 @@ public class MainTest {
             assertEquals(expectedWinners, game.getWinners(), "There should be no winners");
         }
     }
+
+    @Nested
+    class RESP11Tests{
+
+        StringWriter output;
+
+        @BeforeEach
+        public void test_setup(){
+            output = new StringWriter();
+            game = new Main();
+            game.initializePlayers();
+        }
+
+        @Test
+        @DisplayName("Check player is properly converted to string")
+        public void RESP_11_test_01(){
+            assertEquals("P1", game.getPlayer(0).toString(), "String should be P1");
+            assertEquals("P2", game.getPlayer(1).toString(), "String should be P2");
+            assertEquals("P3", game.getPlayer(2).toString(), "String should be P3");
+            assertEquals("P4", game.getPlayer(3).toString(), "String should be P4");
+        }
+
+        @Test
+        @DisplayName("Check output text")
+        public void RESP_11_test_02(){
+            game.displayWinners(new ArrayList<>(), new PrintWriter(output));
+
+            assertTrue(output.toString().contains("Game has ended.  The winners are:"), "Generic text display should be correct");
+        }
+
+        @Test
+        @DisplayName("Display one winner")
+        public void RESP_11_test_03(){
+            List<Player> winners = new ArrayList<>();
+            winners.add(game.getPlayer(0));
+
+            game.displayWinners(winners, new PrintWriter(output));
+
+            assertTrue(output.toString().contains("P1"), "Display should contain P1");
+        }
+
+        @Test
+        @DisplayName("Display multiple winners")
+        public void RESP_11_test_04(){
+
+            List<Player> winners = new ArrayList<>();
+            winners.add(game.getPlayer(0));
+            winners.add(game.getPlayer(2));
+
+            game.displayWinners(winners, new PrintWriter(output));
+
+            assertTrue(output.toString().contains("P1") && output.toString().contains("P3"), "Display contains winners P1 and P2");
+        }
+    }
 }
 
