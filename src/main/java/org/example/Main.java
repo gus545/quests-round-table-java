@@ -203,5 +203,18 @@ public class Main {
     }
 
 
+    public void overwriteEventDeck(int i, EventCard card) {
+    }
 
+    public int getEventDiscardSize(){
+        return -1;
+    }
+
+    public void pullNextEventCard(PrintWriter pw) {
+    }
+
+
+    public EventCard.Type getCurrentEvent() {
+        return null;
+    }
 }

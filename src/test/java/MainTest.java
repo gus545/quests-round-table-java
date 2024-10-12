@@ -734,5 +734,78 @@ public class MainTest {
 
         }
     }
+
+    @Nested
+    class RESP13Tests{
+        StringWriter output;
+        PrintWriter pw;
+        EventCard quest, prosperity,queens, plague;
+        @BeforeEach
+        public void test_setup(){
+            game = new Main();
+            output = new StringWriter();
+            pw = new PrintWriter(output);
+            game.initializePlayers();
+            game.initializeEventDeck();
+
+            quest = new EventCard(3);
+            prosperity = new EventCard(EventCard.Type.Prosperity);
+            queens = new EventCard(EventCard.Type.QueensFavor);
+            plague = new EventCard(EventCard.Type.Plague);
+
+            //put one of each type of card at top of deck
+            game.overwriteEventDeck(0,quest);
+            game.overwriteEventDeck(1,prosperity);
+            game.overwriteEventDeck(2,queens);
+            game.overwriteEventDeck(3, plague);
+        }
+
+        @Test
+        @DisplayName("Event deck correctly reduces in size")
+        public void RESP13_test_01(){
+            int before = game.getEventDeckSize();
+            game.pullNextEventCard(pw);
+            int after = game.getEventDeckSize();
+
+            assertEquals(before-1, after, "Event deck should be smaller in size.");
+        }
+
+        @Test
+        @DisplayName("Discard pile should grow.")
+        public void RESP13_test_02(){
+            int before = game.getEventDiscardSize();
+            game.pullNextEventCard(pw);
+            int after = game.getEventDiscardSize();
+
+            assertEquals(before+1, after, "Event card discard pile should be larger.");
+        }
+
+        @Test
+        @DisplayName("Current event card is properly set")
+        public void RESP13_test_03(){
+            game.pullNextEventCard(pw);
+            assertEquals(new EventCard(3).getType(),game.getCurrentEvent(), "Current event should be quest." );
+        }
+
+        @Test
+        @DisplayName("Each type of event card is properly displayed")
+        public void RESP13_test_04(){
+            game.pullNextEventCard(pw);
+            assertTrue(output.toString().contains("A Q3 card was drawn."), "Quest card should be properly displayed.");
+
+            game.pullNextEventCard(pw);
+            assertTrue(output.toString().contains("A Prosperity card was drawn.  All players draw 2 cards."), "Prosperity card should be properly displayed.");
+
+            game.pullNextEventCard(pw);
+            assertTrue(output.toString().contains("A Queen's Favor card was drawn.  P1 draws 2 cards."), "Queen's Favor card should be properly displayed.");
+
+            //also tests if current player is being displayed
+            game.giveHotseat(1,new Scanner("\n"),pw);
+            game.pullNextEventCard(pw);
+            assertTrue(output.toString().contains("A Plague card was drawn.  P2 loses 2 shields."), "Plague card should be properly displayed.");
+
+        }
+
+    }
 }
 
