@@ -825,5 +825,41 @@ public class MainTest {
             assertEquals(12, game.getPlayer(0).getHandSize(),"Player hand size should be 12");
         }
     }
+
+    @Nested
+    class RESP16Tests{
+
+        @BeforeEach
+        public void test_setup(){
+            input.println("1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n");
+            game.giveHotseat(0);
+            game.overwriteEventDeck(0, new EventCard(EventCard.Type.Prosperity));
+            game.dealCards(10);
+            game.getPlayer(0).addToHand(game.drawAdventureCard());
+            game.getPlayer(1).addToHand(game.drawAdventureCard());
+            game.getPlayer(3).addToHand(game.drawAdventureCard());
+            game.getPlayer(3).addToHand(game.drawAdventureCard());
+            game.pullNextEventCard();
+            game.handleCurrentEvent();
+        }
+
+        @Test
+        @DisplayName("Check each player draws 2 cards and discards if needed")
+        public void RESP_16_test_01(){
+            assertEquals(12, game.getPlayer(0).getHandSize(), "P1 should have drawn 2 cards to reach 12, then trimmed down to 12");
+            assertEquals(12, game.getPlayer(1).getHandSize(), "P2 should have drawn 2 cards to reach 13, then trimmed down to 12");
+            assertEquals(12, game.getPlayer(2).getHandSize(), "P3 should have drawn 2 cards to reach 12");
+            assertEquals(12, game.getPlayer(3).getHandSize(), "P4 should have drawn 2 cards to reach 14, then trimmed down to 12");
+        }
+
+        @Test
+        @DisplayName("Check every player who was prompted to take a turn trimmed their hand")
+        public void RESP_16_test_02(){
+            assertTrue(output.toString().contains("It is now P1's turn."));
+            assertTrue(output.toString().contains("It is now P2's turn."));
+            assertFalse(output.toString().contains("It is now P3's turn."));
+            assertTrue(output.toString().contains("It is now P4's turn."));
+        }
+    }
 }
 
