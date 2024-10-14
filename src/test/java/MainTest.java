@@ -792,5 +792,38 @@ public class MainTest {
             assertEquals(0, game.getPlayer(0).getShields(), "Shields should have been reduced from 1 to 0.");
         }
     }
+    @Nested
+    class RESP15Tests{
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+            game.overwriteEventDeck(0, new EventCard(EventCard.Type.QueensFavor));
+
+        }
+
+        @Test
+        @DisplayName("Test player's hand size increases")
+        public void RESP_15_test_01(){
+            for(int i = 0; i<5; i++) {
+                game.getPlayer(0).addToHand(game.drawAdventureCard());
+            }
+            game.pullNextEventCard();
+            game.handleCurrentEvent();
+            assertEquals(7, game.getPlayer(0).getHandSize(), "Player hand size should be 7");
+        }
+
+        @Test
+        @DisplayName("Test player's hand is trimmed if over 12")
+        public void RESP_15_test_02(){
+            for(int i = 0; i<11; i++) {
+                game.getPlayer(0).addToHand(game.drawAdventureCard());
+            }
+            input.println("1\n1\n1\n");
+            game.pullNextEventCard();
+            game.handleCurrentEvent();
+            assertEquals(12, game.getPlayer(0).getHandSize(),"Player hand size should be 12");
+        }
+    }
 }
 
