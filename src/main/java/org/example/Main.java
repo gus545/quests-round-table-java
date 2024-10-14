@@ -18,6 +18,7 @@ public class Main {
     PrintWriter pw;
     Scanner sc;
     int currentPlayer;
+    int currentStages;
 
     public Main(PrintWriter pw, Scanner sc){
         adventureDeck = new Deck<>();
@@ -237,6 +238,7 @@ public class Main {
         EventCard newCard = drawEventCard();
         EventCard.Type type = newCard.getType();
         currentEvent = type;
+        currentStages = newCard.getStages();
         eventDiscard.addCard(newCard);
 
         String base = "A "+ newCard + " card was drawn.  ";
@@ -269,6 +271,7 @@ public class Main {
                 dealCards(2);
                 trimEachPlayerHand();
             }
+            case EventCard.Type.Quest -> handleCurrentQuest();
         }
     }
 
@@ -288,4 +291,27 @@ public class Main {
             } while (currentPlayer != start);
         }
     }
+
+    private void handleCurrentQuest(){
+        if(findSponsor()){
+            pw.println(getPlayer(currentPlayer) + " has agreed to sponsor the quest.");
+        }
+        else pw.println("All players have declined to sponsor. Moving on...");
+    }
+
+    private boolean findSponsor(){
+        int start = currentPlayer;
+        String playerInput;
+        do{
+            displayPlayerHand(currentPlayer);
+            playerInput = promptInput("Would you (" +getPlayer(currentPlayer)+ ") like to sponsor this quest?");
+            playerInput = playerInput.strip().toLowerCase();
+            if(playerInput.equals("y") || playerInput.equals("yes")) return true;
+            endCurrentHotseat();
+            giveHotseat(getNextPlayer(new ArrayList<>()));
+        } while (currentPlayer != start);
+
+        return false;
+    }
+
 }
