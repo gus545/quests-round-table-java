@@ -236,6 +236,8 @@ public class Main {
     }
 
     public void handleCurrentEvent() {
-
+        switch (currentEvent){
+            case EventCard.Type.Plague -> getPlayer(getCurrentPlayer()).deductShields(2);
+        }
     }
 }

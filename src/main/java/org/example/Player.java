@@ -47,6 +47,11 @@ public class Player {
 
     public int getShields() { return this.shields;}
 
+    public void deductShields(int n) {
+        if (shields < n) shields = 0;
+        else shields-=n;
+    }
+
     @Override
     public String toString(){
         return "P" + this.id;
