@@ -234,4 +234,8 @@ public class Main {
     public EventCard.Type getCurrentEvent() {
         return currentEvent;
     }
+
+    public void handleCurrentEvent() {
+
+    }
 }

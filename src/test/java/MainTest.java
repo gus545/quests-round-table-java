@@ -807,5 +807,41 @@ public class MainTest {
         }
 
     }
+
+    @Nested
+    class RESP14Tests{
+        StringWriter output;
+        PrintWriter pw;
+        @BeforeEach
+        public void test_setup(){
+            output = new StringWriter();
+            pw = new PrintWriter(output);
+            Scanner sc = new Scanner("\n");
+            game = new Main();
+            game.initializePlayers();
+            game.giveHotseat(0, sc, pw);
+            game.initializeEventDeck();
+            game.overwriteEventDeck(0,new EventCard(EventCard.Type.Plague));
+        }
+
+        @Test
+        @DisplayName("Test shields are by two correctly")
+        public void RESP_14_test_01(){
+            game.getPlayer(0).overrideShields(3);
+            game.pullNextEventCard(pw);
+            game.handleCurrentEvent();
+
+            assertEquals(1,game.getPlayer(0).getShields(), "Shields should have been reduced from 3 to 1.");
+        }
+
+        @Test
+        @DisplayName("Test shields aren't reduced below 0")
+        public void RESP_14_test_02(){
+            game.getPlayer(0).overrideShields(1);
+            game.pullNextEventCard(pw);
+            game.handleCurrentEvent();
+            assertEquals(0, game.getPlayer(0).getShields(), "Shields should have been reduced from 1 to 0.");
+        }
+    }
 }
 
