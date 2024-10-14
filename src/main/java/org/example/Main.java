@@ -11,14 +11,34 @@ public class Main {
 
     }
 
-    Deck<AdventureCard> adventureDeck = new Deck<>();
-    Deck<EventCard> eventDeck = new Deck<>();
-    Deck<AdventureCard> adventureDiscard = new Deck<>();
-    Deck<EventCard> eventDiscard = new Deck<>();
-    List<Player> players = new ArrayList<>();
+    Deck<AdventureCard> adventureDeck,adventureDiscard;
+    Deck<EventCard> eventDeck,eventDiscard;
+    List<Player> players;
     EventCard.Type currentEvent;
+    PrintWriter pw;
+    Scanner sc;
     int currentPlayer;
 
+    public Main(PrintWriter pw, Scanner sc){
+        adventureDeck = new Deck<>();
+        initializeAdventureDeck();
+
+        eventDeck = new Deck<>();
+        initializeEventDeck();
+
+        adventureDiscard = new Deck<>();
+        eventDiscard = new Deck<>();
+
+        players = new ArrayList<>();
+        initializePlayers();
+        currentPlayer = 0;
+
+        currentEvent = null;
+
+        this.sc = sc;
+        this.pw = pw;
+
+    }
     public void initializeAdventureDeck(){
         addFoeCards();
         addWeaponCards();
@@ -132,12 +152,12 @@ public class Main {
         return players.get(pNo);
     }
 
-    public void displayPlayerHand(int pNo, PrintWriter p){
+    public void displayPlayerHand(int pNo){
         List<AdventureCard> hand = players.get(pNo).getHand();
 
-        p.println("P"+(pNo+1)+"'s hand:");
+        pw.println("P"+(pNo+1)+"'s hand:");
         for(int i = 0; i < hand.size(); i++){
-            p.println((i + 1) + " - "+ hand.get(i));
+            pw.println((i + 1) + " - "+ hand.get(i));
         }
     }
 
@@ -145,37 +165,37 @@ public class Main {
         adventureDiscard.addCard(players.get(playerNo).discardCard(cardNo));
     }
 
-    public void trimPlayerHand(int pNo, Scanner s, PrintWriter p){
+    public void trimPlayerHand(int pNo){
         while(players.get(pNo).getHandSize() > 12){
-            displayPlayerHand(pNo,p);
-            String input = promptInput(s,p,"Enter the index of the card you would like to discard:");
+            displayPlayerHand(pNo);
+            String input = promptInput("Enter the index of the card you would like to discard:");
             discardFromHand(pNo, Integer.parseInt(input)-1);
         }
     }
 
-    public String promptInput(Scanner s, PrintWriter p, String str){
-        p.println(str);
-        p.flush();
+    public String promptInput(String str){
+        pw.println(str);
+        pw.flush();
 
-        return s.nextLine();
+        return sc.nextLine();
     }
 
-    public void giveHotseat(int pNo, Scanner s, PrintWriter p){
+    public void giveHotseat(int pNo){
         currentPlayer = pNo;
         String prompt = "It is now P" + (pNo + 1) + "'s turn.  Press <return> to proceed:";
-        String str = promptInput(s,p,prompt);
+        String str = promptInput(prompt);
     }
 
     public int getCurrentPlayer(){
         return currentPlayer;
     }
-    public void endCurrentHotseat(Scanner s, PrintWriter p){
+    public void endCurrentHotseat(){
         String prompt = "Your turn has ended (for now).  Press <return> then let the next player take over:";
-        String str = promptInput(s,p, prompt);
+        String str = promptInput(prompt);
 
         for(int i = 0; i<50 ; i++) {
-            p.println();
-            p.flush();
+            pw.println();
+            pw.flush();
         }
     }
 
@@ -187,11 +207,11 @@ public class Main {
         return winners;
     }
 
-    public void displayWinners(List<Player> winners, PrintWriter p){
+    public void displayWinners(List<Player> winners){
         StringBuilder winnerString = new StringBuilder();
         for(Player w : winners) winnerString.append(w).append("  ");
-        p.println("Game has ended.  The winners are:");
-        p.println(winnerString);
+        pw.println("Game has ended.  The winners are:");
+        pw.println(winnerString);
     }
 
     public int getNextPlayer(List<Integer> ineligible){
@@ -213,7 +233,7 @@ public class Main {
         return eventDiscard.getSize();
     }
 
-    public void pullNextEventCard(PrintWriter pw) {
+    public void pullNextEventCard() {
         EventCard newCard = drawEventCard();
         EventCard.Type type = newCard.getType();
         currentEvent = type;

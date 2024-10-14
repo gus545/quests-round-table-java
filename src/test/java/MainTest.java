@@ -4,6 +4,8 @@ import org.example.Main;
 import org.example.Player;
 import org.junit.jupiter.api.*;
 
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -15,18 +17,26 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MainTest {
 
     private Main game;
+    private StringWriter output;
+    private PrintWriter input;
+
     private int adventureDeckSize;
     private int eventDeckSize;
+
+    @BeforeEach
+    public void general_setup() throws Exception{
+        PipedOutputStream outputStream = new PipedOutputStream();
+        PipedInputStream inputStream = new PipedInputStream(outputStream);
+        input = new PrintWriter(outputStream, true);
+        output = new StringWriter();
+        game = new Main(new PrintWriter(output), new Scanner(inputStream));
+    }
 
     @Nested
     class RESP01Tests{
         @BeforeEach
         public void test_setup () {
-            game = new Main();
-            game.initializeAdventureDeck();
             adventureDeckSize = game.getAdventureDeckSize();
-            game.initializeEventDeck();
-            eventDeckSize = game.getEventDeckSize();
         }
 
         @Test
@@ -176,8 +186,6 @@ public class MainTest {
     class RESP02Tests{
         @BeforeEach
         public void test_setup () {
-            game = new Main();
-            game.initializeEventDeck();
             eventDeckSize = game.getEventDeckSize();
         }
 
@@ -283,13 +291,10 @@ public class MainTest {
         @DisplayName("Check if shuffling changes order of decks")
         public void RESP_03_test_01 () {
 
-            game = new Main();
-            game.initializeAdventureDeck();
             adventureDeckSize = game.getAdventureDeckSize();
-            game.initializeEventDeck();
             eventDeckSize = game.getEventDeckSize();
 
-            Main game2 = new Main();
+            Main game2 = new Main(new PrintWriter(System.out), new Scanner(System.in));
             game2.initializeAdventureDeck();
             game2.initializeEventDeck();
 
@@ -321,10 +326,7 @@ public class MainTest {
     class RESP04Tests{
         @BeforeEach
         public void test_setup () {
-            game = new Main();
-            game.initializeAdventureDeck();
             adventureDeckSize = game.getAdventureDeckSize();
-            game.initializePlayers();
             game.dealCards(12);
         }
         @Test
@@ -351,9 +353,6 @@ public class MainTest {
 
         @BeforeEach
         public void test_setup () {
-            game = new Main();
-            game.initializePlayers();
-
             player = game.getPlayer(0);
 
             //add out of order cards
@@ -389,9 +388,7 @@ public class MainTest {
         @DisplayName("Check all cards in hand are displayed correctly and in order.")
         public void RESP_05_test_02(){
 
-            StringWriter output = new StringWriter();
-
-            game.displayPlayerHand(0,new PrintWriter(output));
+            game.displayPlayerHand(0);
 
             assertTrue(output.toString().contains("1 - F5"));
             assertTrue(output.toString().contains("2 - F10"));
@@ -414,8 +411,6 @@ public class MainTest {
 
         @BeforeEach
         public void test_setup(){
-            game = new Main();
-            game.initializePlayers();
             discardedCard = new AdventureCard(AdventureCard.Type.Foe,5);
             game.getPlayer(0).addToHand(discardedCard);
             game.getPlayer(0).addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
@@ -447,13 +442,9 @@ public class MainTest {
     class RESP07Tests{
 
         Player player;
-        StringWriter output;
-        String input;
 
         @BeforeEach
         public void test_setup(){
-            game = new Main();
-            game.initializePlayers();
             player = game.getPlayer(0);
 
             player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
@@ -471,9 +462,8 @@ public class MainTest {
             player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur,30));
             player.addToHand(new AdventureCard(AdventureCard.Type.Lance,20));
 
-            input = "1\n10\n6\n"; //only first 2 inputs should go through
-            output = new StringWriter();
-            game.trimPlayerHand(0,new Scanner(input), new PrintWriter(output));
+            input.println("1\n10\n6\n"); //only first 2 inputs should go through
+            game.trimPlayerHand(0);
         }
 
 
@@ -511,6 +501,7 @@ public class MainTest {
             assertEquals(12, player.getHandSize(), "Player should have 12 cards");
         }
 
+
         @Test
         @DisplayName("Check discard pile size")
         public void RESP_07_test_04(){
@@ -520,15 +511,10 @@ public class MainTest {
 
     @Nested
     class RESP08Tests{
-        String input;
-        StringWriter output;
         @BeforeEach
         public void test_setup(){
-            game = new Main();
-            game.initializePlayers();
-            input="\n";
-            output = new StringWriter();
-            game.giveHotseat(0, new Scanner(input), new PrintWriter(output));
+            input.println("\n");
+            game.giveHotseat(0);
         }
 
         @Test
@@ -541,7 +527,7 @@ public class MainTest {
         @DisplayName("Game displays correct player's turn")
         public void RESP_08_test_02(){
             assertTrue(output.toString().contains("P1"), "Game should display that it is P1's turn");
-            game.giveHotseat(1, new Scanner(input),new PrintWriter(output));
+            game.giveHotseat(1);
             assertTrue(output.toString().contains("P2"), "Game should display that it is P1's turn");
         }
 
@@ -549,23 +535,18 @@ public class MainTest {
         @DisplayName("Current player changes to correct value")
         public void RESP_08_test_03(){
             assertEquals(0,game.getCurrentPlayer(), "Current player should reflect hotseat assignment");
-            game.giveHotseat(3, new Scanner(input),new PrintWriter(output));
+            game.giveHotseat(3);
             assertEquals(3, game.getCurrentPlayer(), "Current player should reflect hotseat assignment");
         }
     }
 
     @Nested
     class RESP09Tests{
-        StringWriter output;
-        String input;
         @BeforeEach
         public void test_setup(){
-            game = new Main();
-            game.initializePlayers();
-            input = "\n";
-            output = new StringWriter();
-            game.giveHotseat(0,new Scanner(input), new PrintWriter(output));
-            game.endCurrentHotseat(new Scanner(input), new PrintWriter(output));
+            input.println("\n");
+            game.giveHotseat(0);
+            game.endCurrentHotseat();
         }
 
         @Test
@@ -588,8 +569,6 @@ public class MainTest {
 
         @BeforeEach
         public void test_setup(){
-            game = new Main();
-            game.initializePlayers();
             expectedWinners = new ArrayList<>();
         }
 
@@ -638,15 +617,6 @@ public class MainTest {
     @Nested
     class RESP11Tests{
 
-        StringWriter output;
-
-        @BeforeEach
-        public void test_setup(){
-            output = new StringWriter();
-            game = new Main();
-            game.initializePlayers();
-        }
-
         @Test
         @DisplayName("Check player is properly converted to string")
         public void RESP_11_test_01(){
@@ -659,7 +629,7 @@ public class MainTest {
         @Test
         @DisplayName("Check output text")
         public void RESP_11_test_02(){
-            game.displayWinners(new ArrayList<>(), new PrintWriter(output));
+            game.displayWinners(new ArrayList<>());
 
             assertTrue(output.toString().contains("Game has ended.  The winners are:"), "Generic text display should be correct");
         }
@@ -670,7 +640,7 @@ public class MainTest {
             List<Player> winners = new ArrayList<>();
             winners.add(game.getPlayer(0));
 
-            game.displayWinners(winners, new PrintWriter(output));
+            game.displayWinners(winners);
 
             assertTrue(output.toString().contains("P1"), "Display should contain P1");
         }
@@ -683,7 +653,7 @@ public class MainTest {
             winners.add(game.getPlayer(0));
             winners.add(game.getPlayer(2));
 
-            game.displayWinners(winners, new PrintWriter(output));
+            game.displayWinners(winners);
 
             assertTrue(output.toString().contains("P1") && output.toString().contains("P3"), "Display contains winners P1 and P2");
         }
@@ -691,33 +661,25 @@ public class MainTest {
 
     @Nested
     class RESP12Tests{
-        String input;
-        StringWriter output;
-        Scanner sc;
-        PrintWriter pw;
+
         List<Integer> ineligible;
         @BeforeEach
         public void test_setup(){
-            game = new Main();
-            game.initializePlayers();
-            input = "\n\n\n\n\n";
-            output = new StringWriter();
-            pw = new PrintWriter(output);
-            sc = new Scanner(input);
-            game.giveHotseat(0, sc, pw);
+            input.println("\n\n\n\n\n");
+            game.giveHotseat(0);
             ineligible = new ArrayList<>();
         }
 
         @Test
         @DisplayName("Game advances to next player's turn with all players eligible")
         public void RESP_12_test_01(){
-            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            game.giveHotseat(game.getNextPlayer(ineligible));
             assertEquals(1,game.getCurrentPlayer());
-            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            game.giveHotseat(game.getNextPlayer(ineligible));
             assertEquals(2,game.getCurrentPlayer());
-            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            game.giveHotseat(game.getNextPlayer(ineligible));
             assertEquals(3,game.getCurrentPlayer());
-            game.giveHotseat(game.getNextPlayer(ineligible), sc, pw);
+            game.giveHotseat(game.getNextPlayer(ineligible));
             assertEquals(0,game.getCurrentPlayer());
         }
 
@@ -727,9 +689,9 @@ public class MainTest {
 
             ineligible.add(1);
             ineligible.add(3);
-            game.giveHotseat(game.getNextPlayer(ineligible), sc , pw);
+            game.giveHotseat(game.getNextPlayer(ineligible));
             assertEquals(2, game.getCurrentPlayer());
-            game.giveHotseat(game.getNextPlayer(ineligible), sc , pw);
+            game.giveHotseat(game.getNextPlayer(ineligible));
             assertEquals(0, game.getCurrentPlayer());
 
         }
@@ -737,16 +699,9 @@ public class MainTest {
 
     @Nested
     class RESP13Tests{
-        StringWriter output;
-        PrintWriter pw;
         EventCard quest, prosperity,queens, plague;
         @BeforeEach
         public void test_setup(){
-            game = new Main();
-            output = new StringWriter();
-            pw = new PrintWriter(output);
-            game.initializePlayers();
-            game.initializeEventDeck();
 
             quest = new EventCard(3);
             prosperity = new EventCard(EventCard.Type.Prosperity);
@@ -764,7 +719,7 @@ public class MainTest {
         @DisplayName("Event deck correctly reduces in size")
         public void RESP13_test_01(){
             int before = game.getEventDeckSize();
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             int after = game.getEventDeckSize();
 
             assertEquals(before-1, after, "Event deck should be smaller in size.");
@@ -774,7 +729,7 @@ public class MainTest {
         @DisplayName("Discard pile should grow.")
         public void RESP13_test_02(){
             int before = game.getEventDiscardSize();
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             int after = game.getEventDiscardSize();
 
             assertEquals(before+1, after, "Event card discard pile should be larger.");
@@ -783,25 +738,26 @@ public class MainTest {
         @Test
         @DisplayName("Current event card is properly set")
         public void RESP13_test_03(){
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             assertEquals(new EventCard(3).getType(),game.getCurrentEvent(), "Current event should be quest." );
         }
 
         @Test
         @DisplayName("Each type of event card is properly displayed")
         public void RESP13_test_04(){
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             assertTrue(output.toString().contains("A Q3 card was drawn."), "Quest card should be properly displayed.");
 
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             assertTrue(output.toString().contains("A Prosperity card was drawn.  All players draw 2 cards."), "Prosperity card should be properly displayed.");
 
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             assertTrue(output.toString().contains("A Queen's Favor card was drawn.  P1 draws 2 cards."), "Queen's Favor card should be properly displayed.");
 
             //also tests if current player is being displayed
-            game.giveHotseat(1,new Scanner("\n"),pw);
-            game.pullNextEventCard(pw);
+            input.println();
+            game.giveHotseat(1);
+            game.pullNextEventCard();
             assertTrue(output.toString().contains("A Plague card was drawn.  P2 loses 2 shields."), "Plague card should be properly displayed.");
 
         }
@@ -810,17 +766,10 @@ public class MainTest {
 
     @Nested
     class RESP14Tests{
-        StringWriter output;
-        PrintWriter pw;
         @BeforeEach
         public void test_setup(){
-            output = new StringWriter();
-            pw = new PrintWriter(output);
-            Scanner sc = new Scanner("\n");
-            game = new Main();
-            game.initializePlayers();
-            game.giveHotseat(0, sc, pw);
-            game.initializeEventDeck();
+            input.println();
+            game.giveHotseat(0);
             game.overwriteEventDeck(0,new EventCard(EventCard.Type.Plague));
         }
 
@@ -828,7 +777,7 @@ public class MainTest {
         @DisplayName("Test shields are by two correctly")
         public void RESP_14_test_01(){
             game.getPlayer(0).overrideShields(3);
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             game.handleCurrentEvent();
 
             assertEquals(1,game.getPlayer(0).getShields(), "Shields should have been reduced from 3 to 1.");
@@ -838,7 +787,7 @@ public class MainTest {
         @DisplayName("Test shields aren't reduced below 0")
         public void RESP_14_test_02(){
             game.getPlayer(0).overrideShields(1);
-            game.pullNextEventCard(pw);
+            game.pullNextEventCard();
             game.handleCurrentEvent();
             assertEquals(0, game.getPlayer(0).getShields(), "Shields should have been reduced from 1 to 0.");
         }
