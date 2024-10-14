@@ -258,6 +258,13 @@ public class Main {
     public void handleCurrentEvent() {
         switch (currentEvent){
             case EventCard.Type.Plague -> getPlayer(getCurrentPlayer()).deductShields(2);
+            case EventCard.Type.QueensFavor -> {
+                for(int i = 0; i<2; i++) getPlayer(getCurrentPlayer()).addToHand(drawAdventureCard());
+                if(getPlayer(getCurrentPlayer()).getHandSize()>12){
+                    pw.println(getPlayer(getCurrentPlayer()) + " has more than 12 cards!");
+                    trimPlayerHand(getCurrentPlayer());
+                }
+            }
         }
     }
 }
