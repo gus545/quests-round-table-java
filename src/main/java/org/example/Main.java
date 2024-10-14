@@ -265,6 +265,27 @@ public class Main {
                     trimPlayerHand(getCurrentPlayer());
                 }
             }
+            case EventCard.Type.Prosperity -> {
+                dealCards(2);
+                trimEachPlayerHand();
+            }
+        }
+    }
+
+    private void trimEachPlayerHand(){
+        ArrayList<Integer> ignoreTrim = new ArrayList<>();
+        for (int i = 0 ; i<NUM_PLAYERS ; i++) if (getPlayer(i).getHandSize()<=12) ignoreTrim.add(i);
+        int start = currentPlayer;
+
+        if (ignoreTrim.size()<NUM_PLAYERS){
+            do {
+                if (getPlayer(currentPlayer).getHandSize() > 12) {
+                    pw.println(getPlayer(currentPlayer) + " has too many cards!");
+                    trimPlayerHand(currentPlayer);
+                }
+                endCurrentHotseat();
+                giveHotseat(getNextPlayer(ignoreTrim));
+            } while (currentPlayer != start);
         }
     }
 }
