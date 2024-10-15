@@ -412,7 +412,9 @@ public class Main {
                 displayPlayerHand(currentPlayer);
                 String playerInput = promptInput("Will you participate in this quest stage? (" + getPlayer(currentPlayer)+")").strip();
                 if(playerInput.equalsIgnoreCase("y")){
-                    getPlayer(currentPlayer).addToHand(drawAdventureCard());
+                    AdventureCard newCard = drawAdventureCard();
+                    getPlayer(currentPlayer).addToHand(newCard);
+                    pw.println(getPlayer(currentPlayer) + " draws a "+ newCard +" card.");
                     if(getPlayer(currentPlayer).getHandSize()>12) trimPlayerHand(currentPlayer);
                 }else {
                     pw.println("Removing " + getPlayer(currentPlayer)+ " from current quest...");
@@ -472,5 +474,6 @@ public class Main {
     }
 
     public void rigEventDeck(List<EventCard> newCards){
+        eventDeck.rigDeck(newCards);
     }
 }

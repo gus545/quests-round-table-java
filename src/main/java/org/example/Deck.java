@@ -43,5 +43,11 @@ public class Deck<T> {
         else cards.set(i,card);
     }
 
+    public void rigDeck(List<T> newCards){
+        for(T c : newCards){
+            cards.remove(c);
+        }
+        cards.addAll(0,newCards);
+    }
 
 }
