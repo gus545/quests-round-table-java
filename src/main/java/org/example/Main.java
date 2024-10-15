@@ -401,5 +401,8 @@ public class Main {
             }while(start!=currentPlayer);
         }
     }
+    public List<Attack> promptAttacks(){
+        return new ArrayList<>();
+    }
 
 }

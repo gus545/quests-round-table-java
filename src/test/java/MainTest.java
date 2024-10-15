@@ -1,3 +1,4 @@
+import com.sun.source.tree.Tree;
 import org.example.*;
 import org.junit.jupiter.api.*;
 
@@ -1412,6 +1413,7 @@ public class MainTest {
 
     @Nested
     class RESP26Tests{
+
         @BeforeEach
         public void test_setup() {
             input.println();
@@ -1469,13 +1471,83 @@ public class MainTest {
             assertEquals(expected, game.getCurrentQuest().getParticipants());
 
         }
-
         @Test
         @DisplayName("Test hand size is correct")
         public void RESP_26_test_02(){
             assertEquals(11,game.getPlayer(0).getHandSize()); //doesn't draw
             assertEquals(11,game.getPlayer(1).getHandSize()); //draws to 11
             assertEquals(12,game.getPlayer(3).getHandSize());// draws to 13 and trims down to 12
+        }
+
+    }
+
+    @Nested
+    class RESP27Tests{
+
+        List<Attack> attacks;
+
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(2);
+            game.dealCards(12);
+            game.overwriteEventDeck(0, new EventCard(4));
+            game.pullNextEventCard();
+
+            Player player = game.getPlayer(2);
+
+            for(int i = 0; i<12; i++) game.discardFromHand(2,0);
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 20));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger, 5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger, 5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse, 10));
+
+            game.discardFromHand(0,0); // 11 cards
+            game.discardFromHand(1, 0);//11
+            game.discardFromHand(1, 0);//10
+            //add F5, then D5 for first stage
+            input.println("1\n7\nQuit");
+
+            //try to add F10, then quit, fail, then add S10, then quit for second stage
+            input.println("2\nQuit\n7\nQuit");
+
+            //try to add empty stage, fail, then add F15,H10
+            input.println("Quit\n2\n7\nQuit");
+
+            //add F40
+            input.println("4\nQuit");
+
+            game.buildQuest();
+            attacks = game.promptAttacks();
+        }
+
+        @Test
+        @DisplayName("Game should have collected the correct amount of attacks")
+        public void RESP_27_test_01(){
+            assertEquals(3,attacks.size());
+        }
+
+
+        @Test
+        @DisplayName("Game should have collected only one attack from each eligible player")
+        public void RESP_27_test_02(){
+            TreeSet<Player> expected = new TreeSet<>();
+            expected.add(game.getPlayer(0));
+            expected.add(game.getPlayer(1));
+            expected.add(game.getPlayer(3));
+
+            TreeSet<Player> actual = new TreeSet<>();
+            for(Attack a : attacks) actual.add(a.getPlayer());
+
+            assertEquals(expected,actual);
         }
 
     }
