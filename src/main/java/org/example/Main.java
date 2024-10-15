@@ -379,4 +379,8 @@ public class Main {
 
     public PrintWriter getPw(){return pw;}
 
+    public void promptParticipants(){
+
+    }
+
 }
