@@ -52,6 +52,11 @@ public class AdventureCard {
     }
 
     @Override
+    public int hashCode(){
+        return Objects.hash(type,value);
+    }
+
+    @Override
     public String toString() {
         char typeInitial = Character.toUpperCase(type.name().charAt(0));
 

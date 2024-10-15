@@ -1963,5 +1963,186 @@ public class MainTest {
 
 
     }
+
+    @Nested
+    class ATests{
+
+        List<AdventureCard> p1Hand = new ArrayList<>(Arrays.asList(
+                new AdventureCard(5),
+                new AdventureCard(5),
+                new AdventureCard(15),
+                new AdventureCard(15),
+                new AdventureCard(AdventureCard.Type.Dagger),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(AdventureCard.Type.Lance)
+        ));
+
+        List<AdventureCard> p2Hand = new ArrayList<>(Arrays.asList(
+                new AdventureCard(5),
+                new AdventureCard(5),
+                new AdventureCard(15),
+                new AdventureCard(15),
+                new AdventureCard(40),
+                new AdventureCard(AdventureCard.Type.Dagger),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(AdventureCard.Type.Excalibur)
+        ));
+
+        List<AdventureCard> p3Hand = new ArrayList<>(Arrays.asList(
+                new AdventureCard(5),
+                new AdventureCard(5),
+                new AdventureCard(5),
+                new AdventureCard(15),
+                new AdventureCard(AdventureCard.Type.Dagger),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(AdventureCard.Type.Lance)
+        ));
+
+        List<AdventureCard> p4Hand = new ArrayList<>(Arrays.asList(
+                new AdventureCard(5),
+                new AdventureCard(15),
+                new AdventureCard(15),
+                new AdventureCard(40),
+                new AdventureCard(AdventureCard.Type.Dagger),
+                new AdventureCard(AdventureCard.Type.Dagger),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.Horse),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(AdventureCard.Type.Lance),
+                new AdventureCard(AdventureCard.Type.Excalibur)
+        ));
+
+        List<AdventureCard> topDeck = new ArrayList<>(Arrays.asList(
+                new AdventureCard(30),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(10),
+                new AdventureCard(AdventureCard.Type.Lance),
+                new AdventureCard(AdventureCard.Type.Lance),
+                new AdventureCard(AdventureCard.Type.BattleAxe),
+                new AdventureCard(AdventureCard.Type.Sword),
+                new AdventureCard(30),
+                new AdventureCard(AdventureCard.Type.Lance)
+        ));
+
+        List<AdventureCard> expectedP1Hand = new ArrayList<>(Arrays.asList(
+                    new AdventureCard(5),
+                    new AdventureCard(10),
+                    new AdventureCard(15),
+                    new AdventureCard(15),
+                    new AdventureCard(30),
+                    new AdventureCard(AdventureCard.Type.Horse),
+                    new AdventureCard(AdventureCard.Type.BattleAxe),
+                    new AdventureCard(AdventureCard.Type.BattleAxe),
+                    new AdventureCard(AdventureCard.Type.Lance)
+            ));
+
+        List<AdventureCard> expectedP3Hand = new ArrayList<>(Arrays.asList(
+                new AdventureCard(5),
+                new AdventureCard(5),
+                new AdventureCard(15),
+                new AdventureCard(30),
+                new AdventureCard(AdventureCard.Type.Sword)
+        ));
+
+        List<AdventureCard> expectedP4Hand = new ArrayList<>(Arrays.asList(
+                new AdventureCard(15),
+                new AdventureCard(15),
+                new AdventureCard(40),
+                new AdventureCard(AdventureCard.Type.Lance)
+        ));
+
+        String inputString = "\nn\n\n\ny\n1\n7\nQuit\n2\n5\nQuit\n2\n3\n4\nQuit\n2\n3\nQuit\n\ny\n1\n\ny\n1\n\ny\n1\n\n\n5\n5\nquit\n\n\n5\n4\nquit\n\n\n4\n6\nquit\n\ny\n\ny\n\ny\n\n\n7\n6\nquit\n\n\n9\n6\nquit\n\n\n6\n6\nquit\n\ny\n\ny\n\n\n9\n7\n4\nquit\n\n\n7\n5\n6\nquit\n\ny\n\ny\n\n\n7\n6\n6\nquit\n\n\n4\n4\n4\n5\nquit\n\n1\n1\n1\n1";
+
+
+
+
+        @Test
+        @DisplayName("A-TEST JP-SCENARIO")
+        public void A_TEST_JP_SCENARIO(){
+            input.println();
+            input.println("n\n\n\ny");//
+            input.println("1\n7\nQuit");//Stage 1
+            input.println("2\n5\nQuit"); //Stage 2
+            input.println("2\n3\n4\nQuit"); //Stage 3
+            input.println("2\n3\nQuit"); //Stage 4
+            input.println("\ny\n1\n");
+            input.println("\ny\n1\n");
+            input.println("\ny\n1\n");
+            input.println("\n\n5\n5\nquit");//P1
+            input.println("\n\n5\n4\nquit"); //P3
+            input.println("\n\n4\n6\nquit\n"); //P4
+            input.println("\ny\n");
+            input.println("\ny\n");
+            input.println("\ny\n");
+            input.println("\n\n7\n6\nquit");//P1
+            input.println("\n\n9\n6\nquit"); //P3
+            input.println("\n\n6\n6\nquit\n"); //P4
+            input.println("\ny\n");//p3
+            input.println("\ny\n");//p4
+            input.println("\n\n9\n7\n4\nquit"); //P3
+            input.println("\n\n7\n5\n6\nquit\n"); //P4
+            input.println("\ny\n");//p3
+            input.println("\ny\n");//p4
+            input.println("\n\n7\n6\n6\nquit"); //P3
+            input.println("\n\n4\n4\n4\n5\nquit\n"); //P4
+            input.println("\n1\n1\n1\n1");
+
+            game.dealCards(12);
+
+
+            game.rigPlayerHand(0,p1Hand);
+            game.rigPlayerHand(1,p2Hand);
+            game.rigPlayerHand(2,p3Hand);
+            game.rigPlayerHand(3,p4Hand);
+
+            game.rigAdventureDeck(topDeck);
+            game.rigEventDeck(new ArrayList<>(Arrays.asList(new EventCard(4))));
+
+            game.giveHotseat(0);
+
+            game.pullNextEventCard();
+
+            game.findSponsor();
+
+
+            game.buildQuest();
+
+
+            for(int i = 0 ; i<game.getCurrentQuest().getNumStages(); i++){
+                game.promptParticipants();
+                game.resolveStage(i,game.promptAttacks());
+                if(i==1){
+                    assertEquals(0,game.getPlayer(0).getShields());
+                    assertEquals(expectedP1Hand,game.getPlayer(0).getHand());
+                }
+            }
+
+            game.wrapUpQuest();
+
+            assertEquals(0,game.getPlayer(2).getShields());
+            assertEquals(expectedP3Hand, game.getPlayer(2).getHand());
+
+            assertEquals(4,game.getPlayer(3).getShields());
+            assertEquals(expectedP4Hand,game.getPlayer(3).getHand());
+
+            assertEquals(12, game.getPlayer(1).getHandSize());
+        }
+    }
 }
 

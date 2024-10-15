@@ -40,6 +40,11 @@ public class Player implements Comparable<Player> {
     public AdventureCard discardCard(int i){
         return hand.remove(i);
     }
+    public List<AdventureCard> discardHand(){
+        List<AdventureCard> oldHand = new ArrayList<>(hand);
+        hand.clear();
+        return oldHand;
+    }
 
     public void overrideShields(int n){
         this.shields = n;
