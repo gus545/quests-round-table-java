@@ -356,6 +356,8 @@ public class Main {
         String playerInput;
         while (true){
             displayPlayerHand(currentPlayer);
+            pw.println("Current attack: " + attack);
+            pw.println("Current value: "+attack.getValue());
             playerInput = promptInput("Choose a card to add to your attack:");
             if (playerInput.equalsIgnoreCase("quit")) break;
             int index = Integer.parseInt(playerInput)-1;
@@ -364,6 +366,8 @@ public class Main {
                 attack.addCard(player.discardCard(index));
             }
         }
+        pw.println("Total attack: " + attack);
+        pw.println("Total value: " + attack.getValue());
         return attack;
     }
 

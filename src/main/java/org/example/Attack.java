@@ -19,7 +19,10 @@ public class Attack {
 
     public Player getPlayer(){return player;}
 
-    public void addCard(AdventureCard card){cards.add(card);}
+    public void addCard(AdventureCard card){
+        cards.add(card);
+        cards.sort(new AdventureCardComparator());
+    }
 
     public boolean checkCardValidity(AdventureCard card, PrintWriter pw){
         if(card.getType() == AdventureCard.Type.Foe){
@@ -30,5 +33,20 @@ public class Attack {
             return false;
         }else return true;
     }
+
+    public int getValue(){
+        int sum = 0;
+        for(AdventureCard c : cards) sum+= c.getValue();
+        return sum;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder out = new StringBuilder();
+        for(AdventureCard c : cards) out.append(c).append(" ");
+        return out.toString();
+    }
+
+
 
 }
