@@ -314,7 +314,7 @@ public class Main {
         return false;
     }
 
-    public Stage getSponsorChoices(int level) {
+    public Stage getSponsorChoices(int level, int max) {
         Stage stage = new Stage(level);
         Player sponsor = getPlayer(getCurrentPlayer());
         while(true){
@@ -336,6 +336,10 @@ public class Main {
             }
 
         }
+    }
+
+    public Quest buildQuest(){
+        return new Quest();
     }
 
 }

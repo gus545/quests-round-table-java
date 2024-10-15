@@ -1,7 +1,4 @@
-import org.example.AdventureCard;
-import org.example.EventCard;
-import org.example.Main;
-import org.example.Player;
+import org.example.*;
 import org.junit.jupiter.api.*;
 
 import java.io.PipedInputStream;
@@ -937,7 +934,7 @@ public class MainTest {
 
             //assume P1 is sponsor
             input.println("1\n7\n8\nQuit\n9\n");
-            actualHand = game.getSponsorChoices(1).getCards();
+            actualHand = game.getSponsorChoices(1,0).getCards();
         }
 
         @Test
@@ -1000,7 +997,7 @@ public class MainTest {
 
             //assume P1 is sponsor
             input.println("1\n5\n7\n7\n8\nQuit\n");//add F5,F20,D5,D5,S10
-            actualHand = game.getSponsorChoices(1).getCards();
+            actualHand = game.getSponsorChoices(1,0).getCards();
         }
 
         @Test
@@ -1048,7 +1045,7 @@ public class MainTest {
 
             //assume P1 is sponsor
             input.println("12\n1\n7\nQuit\n");//add stage cards out of order
-            ArrayList<AdventureCard> actualHand = game.getSponsorChoices(1).getCards();
+            ArrayList<AdventureCard> actualHand = game.getSponsorChoices(1,0).getCards();
         }
 
         @Test
@@ -1067,6 +1064,75 @@ public class MainTest {
             assertTrue(output.toString().contains("Current stage value: 10"));
             assertTrue(output.toString().contains("Current stage value: 15"));
             assertTrue(output.toString().contains("Current stage value: 20"));
+        }
+
+    }
+
+    @Nested
+    class RESP21Tests{
+        Quest quest;
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+
+            game.overwriteEventDeck(0,new EventCard(4));
+            game.pullNextEventCard();
+
+            Player player = game.getPlayer(0);
+
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+
+
+            //add F5, then D5 for first stage
+            input.println("1\n7\nQuit");
+
+            //try to add F10, then quit, fail, then add S10, then quit for second stage
+            input.println("2\nQuit\n7\nQuit");
+
+            //try to add empty stage, fail, then add F15,H10
+            input.println("Quit\n2\n7\nQuit");
+
+            //add F40
+            input.println("4\nQuit");
+
+            quest = game.buildQuest();
+        }
+
+        @Test
+        @DisplayName("Test if quest has correct amount of stages")
+        public void RESP_21_test_01(){
+            assertEquals(4, quest.getStages().size());
+        }
+
+        @Test
+        @DisplayName("Test if quest has expected stage values")
+        public void RESP_21_test_02(){
+            List<Integer> stageValues = new ArrayList<>();
+            for(Stage s : quest.getStages()){
+                stageValues.add(s.getValue());
+            }
+            assertEquals(List.of(10,20,25,40), stageValues);
+        }
+
+        @Test
+        @DisplayName("Test if user is correctly prompted for errors")
+        public void RESP_21_test_03(){
+            assertFalse(output.toString().contains("Stage 1 cannot be completed."));
+            assertTrue(output.toString().contains("Stage 2 cannot be completed.  Insufficient value for this stage."));
+            assertTrue(output.toString().contains("Stage 3 cannot be completed.  A stage cannot be empty."));
+            assertFalse(output.toString().contains("Stage 4 cannot be completed."));
         }
 
     }

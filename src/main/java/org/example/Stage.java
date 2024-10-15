@@ -53,4 +53,7 @@ public class Stage{
 
     public ArrayList<AdventureCard> getCards(){return cards;}
 
+    public int getValue(){
+        return 0;
+    }
 }
