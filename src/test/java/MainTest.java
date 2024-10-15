@@ -908,7 +908,68 @@ public class MainTest {
 
             assertTrue(output.toString().contains("1 - F5"), "P2 should have a F5 in slot 1");
         }
+    }
 
+    @Nested
+    class RESP18Tests{
+
+        List<AdventureCard> actualHand;
+
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+
+            Player player = game.getPlayer(0);
+
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+
+            input.println("1\n7\n8\nQuit\n9\n");
+            actualHand = game.getSponsorChoices();
+        }
+
+        @Test
+        @DisplayName("Test that input stops at 'Quit'")
+        public void RESP_18_test_01(){
+            ArrayList<AdventureCard> expectedHand = new ArrayList<>();
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
+
+            assertEquals(expectedHand, actualHand);
+        }
+
+        @Test
+        @DisplayName("Test cards are removed from hand after selection")
+        public void RESP_18_test_02(){
+            assertEquals(9,game.getPlayer(0).getHandSize());
+        }
+
+        @Test
+        @DisplayName("Test player is prompts are correct")
+        public void RESP_18_test_03(){
+            //display hand check
+            assertTrue(output.toString().contains("1 - F5"));
+            assertTrue(output.toString().contains("7 - D5"));
+            assertTrue(output.toString().contains("8 - S10"));
+            assertTrue(output.toString().contains("9 - H10"));
+
+
+            assertTrue(output.toString().contains("Choose a card to add to the stage (or type \"Quit\" to stop)."));
+
+
+        }
     }
 }
 

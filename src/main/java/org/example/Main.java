@@ -314,4 +314,8 @@ public class Main {
         return false;
     }
 
+    public ArrayList<AdventureCard> getSponsorChoices() {
+        return new ArrayList<>();
+    }
+
 }
