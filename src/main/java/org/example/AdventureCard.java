@@ -1,6 +1,9 @@
 package org.example;
 
+import java.util.Objects;
+
 public class AdventureCard {
+
     public enum Type{
         Foe, Dagger, Horse, Sword, BattleAxe, Lance, Excalibur
     }
@@ -8,9 +11,21 @@ public class AdventureCard {
     private final Type type;
     private final int value;
 
-    public AdventureCard(AdventureCard.Type type, int value){
+    public AdventureCard(AdventureCard.Type type){
         this.type = type;
+        this.value = switch (type){
+            case Type.Foe, Type.Dagger -> 5;
+            case Type.Sword, Type.Horse -> 10;
+            case Type.BattleAxe -> 15;
+            case Type.Lance -> 20;
+            case Type.Excalibur -> 30;
+
+        };
+    }
+
+    public AdventureCard(int value){
         this.value = value;
+        this.type = Type.Foe;
     }
 
     public Type getType(){

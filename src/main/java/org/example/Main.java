@@ -81,7 +81,7 @@ public class Main {
             int count = pair.getValue();
 
             for(int i = 0; i<count; i++) {
-                adventureDeck.addCard(new AdventureCard(AdventureCard.Type.Foe, val));
+                adventureDeck.addCard(new AdventureCard(val));
             }
         }
 
@@ -96,12 +96,11 @@ public class Main {
                                             AdventureCard.Type.Lance,
                                             AdventureCard.Type.Excalibur
                                             };
-        int[] weaponValues = {5,10,10,15,20,30};
         int[] weaponCounts = {6,12,16,8,6,2};
 
         for(int i = 0; i<6; i++){
             for(int j=0; j<weaponCounts[i]; j++){
-                adventureDeck.addCard(new AdventureCard(weaponTypes[i],weaponValues[i]));
+                adventureDeck.addCard(new AdventureCard(weaponTypes[i]));
             }
         }
     }
@@ -170,11 +169,12 @@ public class Main {
 
     public void displayPlayerHand(int pNo){
         List<AdventureCard> hand = players.get(pNo).getHand();
-
-        pw.println("P"+(pNo+1)+"'s hand:");
+        StringBuilder out = new StringBuilder();
+        out.append("P").append(pNo + 1).append("'s hand:\n");
         for(int i = 0; i < hand.size(); i++){
-            pw.println((i + 1) + " - "+ hand.get(i));
+            out.append("(").append((i + 1)).append(")").append(hand.get(i)).append("  ");
         }
+        pw.println(out);
     }
 
     public void discardFromHand(int playerNo, int cardNo){
@@ -199,7 +199,7 @@ public class Main {
     public void giveHotseat(int pNo){
         currentPlayer = pNo;
         String prompt = "It is now P" + (pNo + 1) + "'s turn.  Press <return> to proceed:";
-        String str = promptInput(prompt);
+        promptInput(prompt);
     }
 
     public int getCurrentPlayer(){
@@ -207,7 +207,7 @@ public class Main {
     }
     public void endCurrentHotseat(){
         String prompt = "Your turn has ended (for now).  Press <return> then let the next player take over:";
-        String str = promptInput(prompt);
+        promptInput(prompt);
 
         for(int i = 0; i<50 ; i++) {
             pw.println();

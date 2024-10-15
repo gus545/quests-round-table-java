@@ -1,4 +1,3 @@
-import com.sun.source.tree.Tree;
 import org.example.*;
 import org.junit.jupiter.api.*;
 
@@ -352,12 +351,12 @@ public class MainTest {
             player = game.getPlayer(0);
 
             //add out of order cards
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur,30));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur));
         }
 
         @Test
@@ -368,12 +367,12 @@ public class MainTest {
             List<AdventureCard> hand = player.getHand();
 
             List<AdventureCard> expectedSortedHand = new ArrayList<>();
-            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Foe, 5));
-            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Foe, 10));
-            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Sword, 10));
-            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Horse, 10));
-            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
-            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+            expectedSortedHand.add(new AdventureCard(5));
+            expectedSortedHand.add(new AdventureCard(10));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Sword));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Horse));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.BattleAxe));
+            expectedSortedHand.add(new AdventureCard(AdventureCard.Type.Excalibur));
 
             assertEquals(expectedSortedHand, hand, "Player's hand should be sorted in the expected order.");
         }
@@ -386,12 +385,12 @@ public class MainTest {
 
             game.displayPlayerHand(0);
 
-            assertTrue(output.toString().contains("1 - F5"));
-            assertTrue(output.toString().contains("2 - F10"));
-            assertTrue(output.toString().contains("3 - S10"));
-            assertTrue(output.toString().contains("4 - H10"));
-            assertTrue(output.toString().contains("5 - B15"));
-            assertTrue(output.toString().contains("6 - E30"));
+            assertTrue(output.toString().contains("(1)F5"));
+            assertTrue(output.toString().contains("(2)F10"));
+            assertTrue(output.toString().contains("(3)S10"));
+            assertTrue(output.toString().contains("(4)H10"));
+            assertTrue(output.toString().contains("(5)B15"));
+            assertTrue(output.toString().contains("(6)E30"));
 
 
         }
@@ -407,10 +406,10 @@ public class MainTest {
 
         @BeforeEach
         public void test_setup(){
-            discardedCard = new AdventureCard(AdventureCard.Type.Foe,5);
+            discardedCard = new AdventureCard(5);
             game.getPlayer(0).addToHand(discardedCard);
-            game.getPlayer(0).addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            game.getPlayer(0).addToHand(new AdventureCard(AdventureCard.Type.BattleAxe,15));
+            game.getPlayer(0).addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            game.getPlayer(0).addToHand(new AdventureCard(AdventureCard.Type.BattleAxe));
 
             initialSize = game.getAdventureDiscardSize();
             game.discardFromHand(0,0);
@@ -426,8 +425,8 @@ public class MainTest {
         @DisplayName("Check if player's hand matches expectations")
         public void RESP_06_test_02(){
             List<AdventureCard> expectedHand = new ArrayList<>();
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.BattleAxe,15));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.BattleAxe));
 
             assertEquals(expectedHand, game.getPlayer(0).getHand());
         }
@@ -443,20 +442,20 @@ public class MainTest {
         public void test_setup(){
             player = game.getPlayer(0);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur,30));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Lance,20));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Lance));
 
             input.println("1\n10\n6\n"); //only first 2 inputs should go through
             game.trimPlayerHand(0);
@@ -474,18 +473,18 @@ public class MainTest {
         public void RESP_07_test_02(){
 
             List<AdventureCard> expectedHand = new ArrayList<>();
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,5));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,10));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,15));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,15));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,20));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,40));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Horse,10));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Lance,20));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Excalibur,30));
+            expectedHand.add(new AdventureCard(5));
+            expectedHand.add(new AdventureCard(10));
+            expectedHand.add(new AdventureCard(15));
+            expectedHand.add(new AdventureCard(15));
+            expectedHand.add(new AdventureCard(20));
+            expectedHand.add(new AdventureCard(40));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Horse));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Lance));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Excalibur));
 
             assertEquals(expectedHand, player.getHand(), "Player should have discarded one F5 and one S10");
         }
@@ -865,7 +864,7 @@ public class MainTest {
             input.println();
             game.giveHotseat(1); // P2->P3->P4->P1
             game.overwriteEventDeck(0, new EventCard(4));
-            game.getPlayer(1).addToHand(new AdventureCard(AdventureCard.Type.Foe,5)); //will go over max had size, but outside scope of this test
+            game.getPlayer(1).addToHand(new AdventureCard(5)); //will go over max had size, but outside scope of this test
             game.pullNextEventCard();
         }
 
@@ -902,7 +901,7 @@ public class MainTest {
             input.println("y\n\n\n");
             game.findSponsor();
 
-            assertTrue(output.toString().contains("1 - F5"), "P2 should have a F5 in slot 1");
+            assertTrue(output.toString().contains("(1)F5"), "P2 should have a F5 in slot 1");
         }
     }
 
@@ -918,18 +917,18 @@ public class MainTest {
 
             Player player = game.getPlayer(0);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
             //assume P1 is sponsor
             input.println("1\n7\n8\nQuit\n9\n");
@@ -940,9 +939,9 @@ public class MainTest {
         @DisplayName("Test that input stops at 'Quit'")
         public void RESP_18_test_01(){
             ArrayList<AdventureCard> expectedHand = new ArrayList<>();
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,5));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
+            expectedHand.add(new AdventureCard(5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword));
 
             assertEquals(expectedHand, actualHand);
         }
@@ -957,10 +956,10 @@ public class MainTest {
         @DisplayName("Test player is prompts are correct")
         public void RESP_18_test_03(){
             //display hand check
-            assertTrue(output.toString().contains("1 - F5"));
-            assertTrue(output.toString().contains("7 - D5"));
-            assertTrue(output.toString().contains("8 - S10"));
-            assertTrue(output.toString().contains("9 - H10"));
+            assertTrue(output.toString().contains("(1)F5"));
+            assertTrue(output.toString().contains("(7)D5"));
+            assertTrue(output.toString().contains("(8)S10"));
+            assertTrue(output.toString().contains("(9)H10"));
 
 
             assertTrue(output.toString().contains("Choose a card to add to the stage (or type \"Quit\" to stop)."));
@@ -981,18 +980,18 @@ public class MainTest {
 
             Player player = game.getPlayer(0);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
             //assume P1 is sponsor
             input.println("1\n5\n7\n7\n8\nQuit\n");//add F5,F20,D5,D5,S10
@@ -1003,9 +1002,9 @@ public class MainTest {
         @DisplayName("Game accepts only non-duplicate cards and single foe cards")
         public void RESP_19_test_01(){
             ArrayList<AdventureCard> expectedHand = new ArrayList<>();
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,5));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
-            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
+            expectedHand.add(new AdventureCard(5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword));
 
 
             assertEquals(expectedHand,actualHand);
@@ -1029,22 +1028,22 @@ public class MainTest {
 
             Player player = game.getPlayer(0);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
             //assume P1 is sponsor
             input.println("12\n1\n7\nQuit\n");//add stage cards out of order
-            ArrayList<AdventureCard> actualHand = game.getSponsorChoices(1,0).getCards();
+            game.getSponsorChoices(1,0);
         }
 
         @Test
@@ -1080,18 +1079,18 @@ public class MainTest {
 
             Player player = game.getPlayer(0);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
 
             //add F5, then D5 for first stage
@@ -1146,16 +1145,16 @@ public class MainTest {
             game.giveHotseat(0);
 
             player = game.getPlayer(0);
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur));
 
 
 
@@ -1169,9 +1168,9 @@ public class MainTest {
         @DisplayName("Test attack contents match expectations")
         public void RESP_22_test_01(){
             ArrayList<AdventureCard> expectedCards = new ArrayList<>();
-            expectedCards.add(new AdventureCard(AdventureCard.Type.Dagger,5));
-            expectedCards.add(new AdventureCard(AdventureCard.Type.Sword,10));
-            expectedCards.add(new AdventureCard(AdventureCard.Type.Excalibur,30));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Dagger));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Sword));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Excalibur));
 
             assertEquals(expectedCards, attack.getCards());
         }
@@ -1188,10 +1187,10 @@ public class MainTest {
         public void RESP_22_test_03(){
 
             //check hand display
-            assertTrue(output.toString().contains("10 - E30"));
-            assertTrue(output.toString().contains("9 - E30"));
-            assertTrue(output.toString().contains("8 - E30"));
-            assertTrue(output.toString().contains("7 - B15"));
+            assertTrue(output.toString().contains("(10)E30"));
+            assertTrue(output.toString().contains("(9)E30"));
+            assertTrue(output.toString().contains("(8)E30"));
+            assertTrue(output.toString().contains("(7)B15"));
 
             assertTrue(output.toString().contains("Choose a card to add to your attack:"));
         }
@@ -1208,16 +1207,16 @@ public class MainTest {
             game.giveHotseat(0);
 
             player = game.getPlayer(0);
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur));
 
 
 
@@ -1230,8 +1229,8 @@ public class MainTest {
         @DisplayName("Test attack has no foes or duplicates")
         public void RESP_23_test_01(){
             ArrayList<AdventureCard> expectedCards = new ArrayList<>();
-            expectedCards.add(new AdventureCard(AdventureCard.Type.Dagger,5));
-            expectedCards.add(new AdventureCard(AdventureCard.Type.Sword,10));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Dagger));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Sword));
 
             assertEquals(expectedCards, attack.getCards());
         }
@@ -1255,16 +1254,16 @@ public class MainTest {
 
             Player player;
             player = game.getPlayer(0);
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur));
 
 
 
@@ -1322,18 +1321,18 @@ public class MainTest {
 
             Player player = game.getPlayer(0);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
 
             //add F5, then D5 for first stage
@@ -1425,18 +1424,18 @@ public class MainTest {
             Player player = game.getPlayer(2);
 
             for(int i = 0; i<12; i++) game.discardFromHand(2,0);
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse, 10));
+            player.addToHand(new AdventureCard( 5));
+            player.addToHand(new AdventureCard( 5));
+            player.addToHand(new AdventureCard( 10));
+            player.addToHand(new AdventureCard( 15));
+            player.addToHand(new AdventureCard( 15));
+            player.addToHand(new AdventureCard( 20));
+            player.addToHand(new AdventureCard( 40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
             game.discardFromHand(0,0); // 11 cards
             game.discardFromHand(1, 0);//11
@@ -1499,12 +1498,11 @@ public class MainTest {
                     AdventureCard.Type.Lance,
                     AdventureCard.Type.Excalibur
             };
-            int[] weaponValues = {5,10,10,15,20,30};
             int[] eligiblePlayers = {0,1,3};
 
             for(int i: eligiblePlayers){
                 for(int j =0 ; j<6; j++){
-                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j],weaponValues[j]));
+                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j]));
                 }
             }
 
@@ -1554,18 +1552,18 @@ public class MainTest {
 
             Player player = game.getPlayer(2);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
 
             //add F5, then D5 for first stage
@@ -1590,12 +1588,11 @@ public class MainTest {
                     AdventureCard.Type.Lance,
                     AdventureCard.Type.Excalibur
             };
-            int[] weaponValues = {5,10,10,15,20,30};
             int[] eligiblePlayers = {0,1,3};
 
             for(int i: eligiblePlayers){
                 for(int j =0 ; j<6; j++){
-                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j],weaponValues[j]));
+                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j]));
                 }
             }
 
@@ -1640,18 +1637,18 @@ public class MainTest {
 
             Player player = game.getPlayer(2);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
 
             //add F5, then D5 for first stage
@@ -1676,12 +1673,11 @@ public class MainTest {
                     AdventureCard.Type.Lance,
                     AdventureCard.Type.Excalibur
             };
-            int[] weaponValues = {5,10,10,15,20,30};
             int[] eligiblePlayers = {0,1,3};
 
             for(int i: eligiblePlayers){
                 for(int j =0 ; j<6; j++){
-                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j],weaponValues[j]));
+                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j]));
                 }
             }
 
@@ -1716,18 +1712,18 @@ public class MainTest {
 
             Player player = game.getPlayer(2);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
 
             //add F5, then D5 for first stage
@@ -1752,12 +1748,11 @@ public class MainTest {
                     AdventureCard.Type.Lance,
                     AdventureCard.Type.Excalibur
             };
-            int[] weaponValues = {5,10,10,15,20,30};
             int[] eligiblePlayers = {0,1,3};
 
             for(int i: eligiblePlayers){
                 for(int j =0 ; j<6; j++){
-                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j],weaponValues[j]));
+                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j]));
                 }
             }
 
@@ -1797,18 +1792,18 @@ public class MainTest {
 
             Player player = game.getPlayer(2);
 
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(5));
+            player.addToHand(new AdventureCard(10));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(15));
+            player.addToHand(new AdventureCard(20));
+            player.addToHand(new AdventureCard(40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse));
 
 
             //add F5, then D5 for first stage
@@ -1833,12 +1828,11 @@ public class MainTest {
                     AdventureCard.Type.Lance,
                     AdventureCard.Type.Excalibur
             };
-            int[] weaponValues = {5,10,10,15,20,30};
             int[] eligiblePlayers = {0,1,3};
 
             for(int i: eligiblePlayers){
                 for(int j =0 ; j<6; j++){
-                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j],weaponValues[j]));
+                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j]));
                 }
             }
 
