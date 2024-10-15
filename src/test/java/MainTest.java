@@ -883,6 +883,9 @@ public class MainTest {
             input.println("n\n\n\nn\n\n\nn\n\n\ny\n"); //fourth player accepts
             game.findSponsor();
 
+            assertTrue(output.toString().contains("P2 has declined to sponsor the quest."));
+            assertTrue(output.toString().contains("P3 has declined to sponsor the quest."));
+            assertTrue(output.toString().contains("P4 has declined to sponsor the quest."));
             assertTrue(output.toString().contains("P1 has agreed to sponsor the quest."),"P1 should have sponsored the quest");
         }
 
