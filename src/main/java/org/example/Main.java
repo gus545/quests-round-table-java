@@ -431,7 +431,16 @@ public class Main {
             for (Player p : currentQuest.getParticipants()){
                 p.addShields(currentQuest.getNumStages());
             }
+            giveHotseat(currentQuest.getSponsor().getId()-1);
+            for (int i =0; i < currentQuest.getNumCards()+currentQuest.getNumStages(); i++){
+                getPlayer(currentPlayer).addToHand(drawAdventureCard());
+            }
+            if(getPlayer(currentPlayer).getHandSize()>12) trimPlayerHand(currentPlayer);
+
+            adventureDiscard.addCards(currentQuest.getCards());
+
         }
+
     }
 
 }

@@ -1602,7 +1602,7 @@ public class MainTest {
             input.println();
             game.giveHotseat(3);
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n\n\n");
+            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
 
 
             attacks = game.promptAttacks();
@@ -1688,7 +1688,7 @@ public class MainTest {
             input.println();
             game.giveHotseat(3);
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n\n\n");
+            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
 
 
             List<Attack> attacks = game.promptAttacks();
@@ -1699,7 +1699,7 @@ public class MainTest {
         @Test
         @DisplayName("Discard pile should grow")
         public void RESP_29_test_01(){
-            assertEquals(before+9,game.getAdventureDiscardSize());
+            assertEquals(20,game.getAdventureDiscardSize());
         }
     }
 
@@ -1764,7 +1764,7 @@ public class MainTest {
             input.println();
             game.giveHotseat(3);
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n\n\n");
+            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
 
 
             attacks = game.promptAttacks();
@@ -1845,7 +1845,7 @@ public class MainTest {
             input.println();
             game.giveHotseat(3);
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n\n\n");
+            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
 
 
             attacks = game.promptAttacks();
@@ -1855,7 +1855,7 @@ public class MainTest {
         @Test
         @DisplayName("Test discard pile grew by correct amount")
         public void RESP_31_test_01(){
-            assertEquals(16,game.getAdventureDiscardSize());
+            assertEquals(20,game.getAdventureDiscardSize());
         }
 
         @Test

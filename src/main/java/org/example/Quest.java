@@ -10,6 +10,7 @@ public class Quest {
     private TreeMap<Player,Boolean> eligible;
     private final int numStages;
     private int max;
+    private final Player sponsor;
 
     public Quest(int numStages, List<Player> players, Player sponsor){
 
@@ -20,6 +21,7 @@ public class Quest {
         stages = new ArrayList<>();
         this.numStages = numStages;
         this.max = 0;
+        this.sponsor = sponsor;
     }
 
     public ArrayList<Stage> getStages(){ return stages;}
@@ -85,5 +87,29 @@ public class Quest {
 
     public int getNumStages() {
         return numStages;
+    }
+
+    public Player getSponsor(){
+        return this.sponsor;
+    }
+
+    public int getNumCards(){
+        int count = 0;
+        for(Stage s: getStages()){
+            for(AdventureCard c : s.getCards()){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public List<AdventureCard> getCards(){
+        List<AdventureCard> cards = new ArrayList<>();
+        for(Stage s: getStages()){
+            for(AdventureCard c : s.getCards()){
+                cards.add(c);
+            }
+        }
+        return cards;
     }
 }
