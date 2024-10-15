@@ -315,7 +315,15 @@ public class Main {
     }
 
     public ArrayList<AdventureCard> getSponsorChoices() {
-        return new ArrayList<>();
+        ArrayList<AdventureCard> chosenCards = new ArrayList<>();
+        Player sponsor = getPlayer(getCurrentPlayer());
+        while(true){
+            displayPlayerHand(currentPlayer);
+            String playerInput = promptInput("Choose a card to add to the stage (or type \"Quit\" to stop).");
+            if(playerInput.equalsIgnoreCase("quit")) return chosenCards;
+            else chosenCards.add(sponsor.discardCard(Integer.parseInt(playerInput)-1));
+
+        }
     }
 
 }
