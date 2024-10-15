@@ -427,15 +427,14 @@ public class Main {
     public List<Attack> promptAttacks(){
         ArrayList<Attack> attacks = new ArrayList<>();
         List<Integer> ineligible = currentQuest.getIneligibleIds();
-
-        int start = currentPlayer;
-
-        do{
-           attacks.add(buildAttack());
-           endCurrentHotseat();
-           giveHotseat(getNextPlayer(ineligible));
-
-        }while(start!=currentPlayer);
+        for(int i = 0 ; i < NUM_PLAYERS ; i++) {
+            if(!ineligible.contains(i)) {
+                    endCurrentHotseat();
+                    giveHotseat(i);
+                    attacks.add(buildAttack());
+            }
+        }
+        endCurrentHotseat();
         return attacks;
     }
 
