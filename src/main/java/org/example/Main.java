@@ -17,6 +17,7 @@ public class Main {
     EventCard.Type currentEvent;
     PrintWriter pw;
     Scanner sc;
+    Quest currentQuest;
     int currentPlayer;
     int currentStages;
 
@@ -345,8 +346,9 @@ public class Main {
     }
 
     public Quest buildQuest(){
-        Quest quest = new Quest(currentStages);
+        Quest quest = new Quest(currentStages,players,getPlayer(currentPlayer));
         for(int i = 1; i<=currentStages; i++) quest.addStage(getSponsorChoices(i, quest.getMax()));
+        currentQuest = quest;
         return quest;
     }
 
@@ -372,7 +374,7 @@ public class Main {
     }
 
     public Quest getCurrentQuest(){
-        return new Quest(0);
+        return currentQuest;
     }
 
     public PrintWriter getPw(){return pw;}

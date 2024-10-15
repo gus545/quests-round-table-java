@@ -2,17 +2,21 @@ package org.example;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Quest {
 
-    private ArrayList<Stage> stages;
-    private int numStages;
+    private final ArrayList<Stage> stages;
+    private TreeMap<Player,Boolean> eligible;
+    private final int numStages;
     private int max;
 
-    public Quest(int numStages){
+    public Quest(int numStages, List<Player> players, Player sponsor){
+
+        eligible = new TreeMap<>();
+        for(Player p : players) eligible.put(p,true);
+        eligible.put(sponsor,false);
+
         stages = new ArrayList<>();
         this.numStages = numStages;
         this.max = 0;
@@ -27,14 +31,33 @@ public class Quest {
 
     public int getMax(){ return max;}
 
-    public TreeSet<Player> getParticipants(){ return new TreeSet<>();}
+    public TreeSet<Player> getParticipants(){
+        TreeSet<Player> out = new TreeSet<>();
+        for (Player p : eligible.keySet()){
+            if(eligible.get(p)){
+                out.add(p);
+            }
+        }
+        return out;
+    }
 
-    public TreeSet<Player> getIneligible(){return new TreeSet<>();}
+    public TreeSet<Player> getIneligible(){
+        TreeSet<Player> out = new TreeSet<>();
+        for (Player p : eligible.keySet()){
+            if(!eligible.get(p)){
+                out.add(p);
+            }
+        }
+        return out;
+    }
 
     public void removeParticipants(Set<Player> s){
+        for(Player p: s) eligible.put(p,false);
     }
 
     public void displayParticipants(PrintWriter pw){
-
+        StringBuilder out = new StringBuilder("Remaining participants:");
+        for(Player p : getParticipants()) out.append(" ").append(p);
+        pw.println(out);
     }
 }
