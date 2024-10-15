@@ -935,6 +935,7 @@ public class MainTest {
             player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
             player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
 
+            //assume P1 is sponsor
             input.println("1\n7\n8\nQuit\n9\n");
             actualHand = game.getSponsorChoices();
         }
@@ -970,6 +971,57 @@ public class MainTest {
 
 
         }
+    }
+
+    @Nested
+    class RESP19Tests{
+
+        List<AdventureCard> actualHand;
+
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+
+            Player player = game.getPlayer(0);
+
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+
+            //assume P1 is sponsor
+            input.println("1\n5\n7\n7\n8\nQuit\n");//add F5,F20,D5,D5,S10
+            actualHand = game.getSponsorChoices();
+        }
+
+        @Test
+        @DisplayName("Game accepts only non-duplicate cards and single foe cards")
+        public void RESP_19_test_01(){
+            ArrayList<AdventureCard> expectedHand = new ArrayList<>();
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Foe,5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Dagger,5));
+            expectedHand.add(new AdventureCard(AdventureCard.Type.Sword,10));
+
+
+            assertEquals(expectedHand,actualHand);
+        }
+
+        @Test
+        @DisplayName("Game prompts player that card is invalid with reason")
+        public void RESP_19_test_02(){
+            assertTrue(output.toString().contains("F20 is invalid.  Only one foe card allowed."));
+            assertTrue(output.toString().contains("D5 is invalid.  No duplicates allowed."));
+        }
+
     }
 }
 
