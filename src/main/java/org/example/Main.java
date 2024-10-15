@@ -405,26 +405,23 @@ public class Main {
 
     public void promptParticipants(){
         List<Integer> ineligible = currentQuest.getIneligibleIds();
-        if(ineligible.size()<NUM_PLAYERS){
-            giveHotseat(getNextPlayer(ineligible));
-            int start = currentPlayer;
-            do{
+        for(int i=0; i<NUM_PLAYERS; i++) {
+            if(!ineligible.contains(i)){
+                giveHotseat(i);
                 displayPlayerHand(currentPlayer);
-                String playerInput = promptInput("Will you participate in this quest stage? (" + getPlayer(currentPlayer)+")").strip();
-                if(playerInput.equalsIgnoreCase("y")){
+                String playerInput = promptInput("Will you participate in this quest stage? (" + getPlayer(currentPlayer) + ")").strip();
+                if (playerInput.equalsIgnoreCase("y")) {
                     AdventureCard newCard = drawAdventureCard();
                     getPlayer(currentPlayer).addToHand(newCard);
-                    pw.println(getPlayer(currentPlayer) + " draws a "+ newCard +" card.");
-                    if(getPlayer(currentPlayer).getHandSize()>12) trimPlayerHand(currentPlayer);
-                }else {
-                    pw.println("Removing " + getPlayer(currentPlayer)+ " from current quest...");
+                    pw.println(getPlayer(currentPlayer) + " draws a " + newCard + " card.");
+                    if (getPlayer(currentPlayer).getHandSize() > 12) trimPlayerHand(currentPlayer);
+                } else {
+                    pw.println("Removing " + getPlayer(currentPlayer) + " from current quest...");
                     currentQuest.removeParticipants(getPlayer(currentPlayer));
                 }
 
                 endCurrentHotseat();
-                giveHotseat(getNextPlayer(ineligible));
-
-            }while(start!=currentPlayer);
+            }
         }
     }
     public List<Attack> promptAttacks(){
