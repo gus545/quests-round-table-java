@@ -1489,43 +1489,30 @@ public class MainTest {
         @BeforeEach
         public void test_setup(){
             input.println();
-            game.giveHotseat(2);
-            game.dealCards(12);
-            game.overwriteEventDeck(0, new EventCard(4));
-            game.pullNextEventCard();
+            game.giveHotseat(3);
 
-            Player player = game.getPlayer(2);
+            //give one of each weapon cards to eligible players for ease
+            AdventureCard.Type[] weaponTypes = {AdventureCard.Type.Dagger,
+                    AdventureCard.Type.Horse,
+                    AdventureCard.Type.Sword,
+                    AdventureCard.Type.BattleAxe,
+                    AdventureCard.Type.Lance,
+                    AdventureCard.Type.Excalibur
+            };
+            int[] weaponValues = {5,10,10,15,20,30};
+            int[] eligiblePlayers = {0,1,3};
 
-            for(int i = 0; i<12; i++) game.discardFromHand(2,0);
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 15));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 20));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Foe, 40));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger, 5));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Sword, 10));
-            player.addToHand(new AdventureCard(AdventureCard.Type.Horse, 10));
+            for(int i: eligiblePlayers){
+                for(int j =0 ; j<6; j++){
+                    game.getPlayer(i).addToHand(new AdventureCard(weaponTypes[j],weaponValues[j]));
+                }
+            }
 
-            game.discardFromHand(0,0); // 11 cards
-            game.discardFromHand(1, 0);//11
-            game.discardFromHand(1, 0);//10
-            //add F5, then D5 for first stage
-            input.println("1\n7\nQuit");
+            game.setQuest(new Quest(4,game.getPlayers(), game.getPlayer(2)));
 
-            //try to add F10, then quit, fail, then add S10, then quit for second stage
-            input.println("2\nQuit\n7\nQuit");
+            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n\n\n");
 
-            //try to add empty stage, fail, then add F15,H10
-            input.println("Quit\n2\n7\nQuit");
 
-            //add F40
-            input.println("4\nQuit");
-
-            game.buildQuest();
             attacks = game.promptAttacks();
         }
 

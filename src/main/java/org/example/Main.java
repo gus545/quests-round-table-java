@@ -405,4 +405,10 @@ public class Main {
         return new ArrayList<>();
     }
 
+    public void setQuest(Quest q){
+        currentQuest = q;
+    }
+
+    public List<Player> getPlayers(){return players;}
+
 }
