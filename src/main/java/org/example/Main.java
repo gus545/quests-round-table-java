@@ -423,5 +423,6 @@ public class Main {
     public List<Player> getPlayers(){return players;}
 
     public void resolveStage(int stage, List<Attack> attacks){
+        currentQuest.resolveAttack(stage,attacks,pw);
     }
 }

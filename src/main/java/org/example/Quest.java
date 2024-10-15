@@ -29,6 +29,18 @@ public class Quest {
         max = s.getValue();
     }
 
+    public void resolveAttack(int stage, List<Attack> attacks,PrintWriter pw){
+        Stage s = stages.get(stage);
+        for(Attack a: attacks){
+            if(a.getValue() >= s.getValue()){
+                pw.println(a.getPlayer() + " has claimed victory.");
+            }else{
+                pw.println(a.getPlayer() + " has been defeated.");
+                removeParticipants(a.getPlayer());
+            }
+        }
+    }
+
     public int getMax(){ return max;}
 
     public TreeSet<Player> getParticipants(){
