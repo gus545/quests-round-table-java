@@ -427,6 +427,11 @@ public class Main {
         for(Attack a: attacks){
             adventureDiscard.addCards(a.getCards());
         }
+        if (stage+1 == currentQuest.getNumStages()){
+            for (Player p : currentQuest.getParticipants()){
+                p.addShields(currentQuest.getNumStages());
+            }
+        }
     }
 
 }

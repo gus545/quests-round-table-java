@@ -83,4 +83,7 @@ public class Quest {
         return out;
     }
 
+    public int getNumStages() {
+        return numStages;
+    }
 }
