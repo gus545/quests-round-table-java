@@ -315,7 +315,9 @@ public class Main {
                 promptParticipants();
                 List<Attack> attacks = promptAttacks();
                 resolveStage(i,attacks);
+                if(currentQuest.getParticipants().isEmpty()) break;
             }
+            wrapUpQuest();
         }
     }
 
@@ -449,20 +451,27 @@ public class Main {
         for(Attack a: attacks){
             adventureDiscard.addCards(a.getCards());
         }
-        if (stage+1 == currentQuest.getNumStages()){
-            for (Player p : currentQuest.getParticipants()){
-                p.addShields(currentQuest.getNumStages());
-            }
-            giveHotseat(currentQuest.getSponsor().getId()-1);
-            for (int i =0; i < currentQuest.getNumCards()+currentQuest.getNumStages(); i++){
-                getPlayer(currentPlayer).addToHand(drawAdventureCard());
-            }
-            if(getPlayer(currentPlayer).getHandSize()>12) trimPlayerHand(currentPlayer);
+    }
 
-            adventureDiscard.addCards(currentQuest.getCards());
-
+    public void wrapUpQuest(){
+        for (Player p : currentQuest.getParticipants()) {
+            p.addShields(currentQuest.getNumStages());
         }
+        giveHotseat(currentQuest.getSponsor().getId() - 1);
+        for (int i = 0; i < currentQuest.getNumCards() + currentQuest.getNumStages(); i++) {
+            getPlayer(currentPlayer).addToHand(drawAdventureCard());
+        }
+        if (getPlayer(currentPlayer).getHandSize() > 12) trimPlayerHand(currentPlayer);
 
+        adventureDiscard.addCards(currentQuest.getCards());
+    }
+
+
+    public void rigPlayerHand(int i, List<AdventureCard> newCards){
+        Player player = getPlayer(i);
+        adventureDeck.addCards(player.discardHand());
+        adventureDiscard.shuffleCards();
+        for(AdventureCard c : newCards) player.addToHand(c);
     }
 
     public void rigAdventureDeck(List<AdventureCard> newCards){

@@ -1648,13 +1648,23 @@ public class MainTest {
                 }
             }
 
-            input.println();
-            game.giveHotseat(3);
+            Attack a1 = new Attack(game.getPlayer(0));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Horse));
+            a1.addCard(new AdventureCard(AdventureCard.Type.BattleAxe));
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
+            Attack a2 = new Attack(game.getPlayer(1));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Horse));
 
+            Attack a4 = new Attack(game.getPlayer(3));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Horse));
 
-            attacks = game.promptAttacks();
+            attacks = new ArrayList<>(Arrays.asList(a1,a2,a4));
 
             game.resolveStage(3,attacks);
 
@@ -1736,10 +1746,23 @@ public class MainTest {
             input.println();
             game.giveHotseat(3);
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
+            Attack a1 = new Attack(game.getPlayer(0));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Horse));
+            a1.addCard(new AdventureCard(AdventureCard.Type.BattleAxe));
 
+            Attack a2 = new Attack(game.getPlayer(1));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Horse));
 
-            List<Attack> attacks = game.promptAttacks();
+            Attack a4 = new Attack(game.getPlayer(3));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Horse));
+
+            List<Attack> attacks = new ArrayList<>(Arrays.asList(a1,a2,a4));
             before = game.getAdventureDiscardSize();
             game.resolveStage(3,attacks);
         }
@@ -1747,7 +1770,7 @@ public class MainTest {
         @Test
         @DisplayName("Discard pile should grow")
         public void RESP_29_test_01(){
-            assertEquals(20,game.getAdventureDiscardSize());
+            assertEquals(before+10,game.getAdventureDiscardSize());
         }
     }
 
@@ -1808,13 +1831,28 @@ public class MainTest {
                 }
             }
 
-            input.println();
-            game.giveHotseat(3);
+            Attack a1 = new Attack(game.getPlayer(0));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Horse));
+            a1.addCard(new AdventureCard(AdventureCard.Type.BattleAxe));
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
+            Attack a2 = new Attack(game.getPlayer(1));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Horse));
+
+            Attack a4 = new Attack(game.getPlayer(3));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Horse));
+
+            attacks = new ArrayList<>(Arrays.asList(a1,a2,a4));
 
 
-            attacks = game.promptAttacks();
+            game.resolveStage(3,attacks);
+            input.println("1\n1\n1\n1\n1\n");
+            game.wrapUpQuest();
         }
 
         @Test
@@ -1888,20 +1926,33 @@ public class MainTest {
                 }
             }
 
-            input.println();
-            game.giveHotseat(3);
+            Attack a1 = new Attack(game.getPlayer(0));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a1.addCard(new AdventureCard(AdventureCard.Type.Horse));
+            a1.addCard(new AdventureCard(AdventureCard.Type.BattleAxe));
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n1\n1\n1\n1\n1\n1\n1\n1\n");
+            Attack a2 = new Attack(game.getPlayer(1));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a2.addCard(new AdventureCard(AdventureCard.Type.Horse));
 
+            Attack a4 = new Attack(game.getPlayer(3));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Dagger));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Sword));
+            a4.addCard(new AdventureCard(AdventureCard.Type.Horse));
 
-            attacks = game.promptAttacks();
+            attacks = new ArrayList<>(Arrays.asList(a1,a2,a4));
             game.resolveStage(3,attacks);
+
+            input.println("1\n1\n1\n1\n1\n");
+            game.wrapUpQuest();
         }
 
         @Test
         @DisplayName("Test discard pile grew by correct amount")
         public void RESP_31_test_01(){
-            assertEquals(20,game.getAdventureDiscardSize());
+            assertEquals(21,game.getAdventureDiscardSize());
         }
 
         @Test
