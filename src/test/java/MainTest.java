@@ -873,7 +873,7 @@ public class MainTest {
         @DisplayName("Test if sponsor is found when first player accepts")
         public void RESP_17_test_01(){
             input.println("y\n"); //first player accepts
-            game.handleCurrentEvent();
+            game.findSponsor();
 
             assertTrue(output.toString().contains("P2 has agreed to sponsor the quest."), "P2 should have sponsored the quest");
         }
@@ -882,7 +882,7 @@ public class MainTest {
         @DisplayName("Test if sponsor is found when last player accepts")
         public void RESP_17_test_02(){
             input.println("n\n\n\nn\n\n\nn\n\n\ny\n"); //fourth player accepts
-            game.handleCurrentEvent();
+            game.findSponsor();
 
             assertTrue(output.toString().contains("P1 has agreed to sponsor the quest."),"P1 should have sponsored the quest");
         }
@@ -891,7 +891,7 @@ public class MainTest {
         @DisplayName("Test if game moves in if everyone declines")
         public void RESP_17_test_03(){
             input.println("n\n\n\nn\n\n\nn\n\n\nn\n\n\n"); // all decline
-            game.handleCurrentEvent();
+            game.findSponsor();
 
             assertTrue(output.toString().contains("All players have declined to sponsor. Moving on..."), "No one should have sponsored the quest");
         }
@@ -900,7 +900,7 @@ public class MainTest {
         @DisplayName("Test if player's hand is displayed correctly")
         public void RESP_17_test_04(){
             input.println("y\n\n\n");
-            game.handleCurrentEvent();
+            game.findSponsor();
 
             assertTrue(output.toString().contains("1 - F5"), "P2 should have a F5 in slot 1");
         }

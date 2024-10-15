@@ -8,7 +8,21 @@ public class Main {
     public static final int NUM_PLAYERS = 4;
 
     public static void main(String[] args) {
+        Main game = new Main(new PrintWriter(System.out), new Scanner(System.in));
+        game.dealCards(12);
+        game.gameLoop();
+    }
 
+    public void gameLoop(){
+        giveHotseat(0);
+        while (true){
+            pullNextEventCard();
+            handleCurrentEvent();
+            if(!getWinners().isEmpty()){
+                displayWinners(getWinners());
+                break;
+            }
+        }
     }
 
     Deck<AdventureCard> adventureDeck,adventureDiscard;
@@ -295,23 +309,31 @@ public class Main {
 
     private void handleCurrentQuest(){
         if(findSponsor()){
-            pw.println(getPlayer(currentPlayer) + " has agreed to sponsor the quest.");
+            buildQuest();
+            for(int i = 0; i<currentQuest.getNumStages(); i++){
+                promptParticipants();
+                List<Attack> attacks = promptAttacks();
+                resolveStage(i,attacks);
+            }
         }
-        else pw.println("All players have declined to sponsor. Moving on...");
     }
 
-    private boolean findSponsor(){
+    public boolean findSponsor(){
         int start = currentPlayer;
         String playerInput;
         do{
             displayPlayerHand(currentPlayer);
             playerInput = promptInput("Would you (" +getPlayer(currentPlayer)+ ") like to sponsor this quest?(y/n)");
             playerInput = playerInput.strip().toLowerCase();
-            if(playerInput.equals("y") || playerInput.equals("yes")) return true;
+            if(playerInput.equals("y") || playerInput.equals("yes")) {
+                pw.println(getPlayer(currentPlayer) + " has agreed to sponsor the quest.");
+                return true;
+            }
             endCurrentHotseat();
             giveHotseat(getNextPlayer(new ArrayList<>()));
         } while (currentPlayer != start);
 
+        pw.println("All players have declined to sponsor. Moving on...");
         return false;
     }
 
