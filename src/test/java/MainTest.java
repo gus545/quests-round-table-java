@@ -1468,6 +1468,11 @@ public class MainTest {
             input.println("\ny\n1\n\n\nn\n\n\ny\n\n\n"); //p4-yes,p1-no,p2-yes
 
 
+            game.rigAdventureDeck(new ArrayList<>(Arrays.asList(
+                    new AdventureCard(5), //add f5
+                    new AdventureCard(AdventureCard.Type.Sword) //S10
+            )));
+
             game.promptParticipants();
         }
 
@@ -1487,6 +1492,13 @@ public class MainTest {
             assertEquals(11,game.getPlayer(0).getHandSize()); //doesn't draw
             assertEquals(11,game.getPlayer(1).getHandSize()); //draws to 11
             assertEquals(12,game.getPlayer(3).getHandSize());// draws to 13 and trims down to 12
+        }
+
+        @Test
+        @DisplayName("Test card draw is displayed")
+        public void RESP_26_test_03(){
+            assertTrue(output.toString().contains("P4 draws a F5 card"));
+            assertTrue(output.toString().contains("P2 draws a S10 card"));
         }
 
     }

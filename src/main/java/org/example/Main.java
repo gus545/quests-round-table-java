@@ -467,4 +467,10 @@ public class Main {
 
     }
 
+    public void rigAdventureDeck(List<AdventureCard> newCards){
+        adventureDeck.rigDeck(newCards);
+    }
+
+    public void rigEventDeck(List<EventCard> newCards){
+    }
 }
