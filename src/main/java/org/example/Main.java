@@ -185,6 +185,7 @@ public class Main {
         while(players.get(pNo).getHandSize() > 12){
             displayPlayerHand(pNo);
             String input = promptInput("Enter the index of the card you would like to discard:");
+            pw.println(getPlayer(pNo) + " discarded a " + getPlayer(pNo).getHand().get(Integer.parseInt(input)-1)+ " card");
             discardFromHand(pNo, Integer.parseInt(input)-1);
         }
     }
