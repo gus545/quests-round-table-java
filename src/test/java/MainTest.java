@@ -6,6 +6,10 @@ import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -1465,7 +1469,7 @@ public class MainTest {
 
             game.buildQuest();
 
-            input.println("\ny\n1\n\n\nn\n\n\ny\n\n\n"); //p4-yes,p1-no,p2-yes
+            input.println("\nn\n\n\ny\n\n\ny\n1\n\n"); //p1-no,p2-yes,p4-yes
 
 
             game.rigAdventureDeck(new ArrayList<>(Arrays.asList(
@@ -1497,8 +1501,25 @@ public class MainTest {
         @Test
         @DisplayName("Test card draw is displayed")
         public void RESP_26_test_03(){
-            assertTrue(output.toString().contains("P4 draws a F5 card"));
-            assertTrue(output.toString().contains("P2 draws a S10 card"));
+            assertTrue(output.toString().contains("P2 draws a F5 card"));
+            assertTrue(output.toString().contains("P4 draws a S10 card"));
+        }
+
+        @Test
+        @DisplayName("Test players are prompted from lowest id to highest")
+        public void RESP_26_test_04(){
+            String regex = "P\\d+";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(output.toString());
+
+            List<String> orderOfPlayers = matcher.results()
+                    .map(MatchResult::group)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            List<String> expectedOrder = Arrays.asList("P3", "P1", "P2", "P4");
+
+            assertEquals(expectedOrder, orderOfPlayers);
         }
 
     }
