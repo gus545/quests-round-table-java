@@ -1136,5 +1136,67 @@ public class MainTest {
         }
 
     }
+
+    @Nested
+    class RESP22Tests{
+        Player player;
+        Attack attack;
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+
+            player = game.getPlayer(0);
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+
+
+
+            input.println("4\n6\n8\nQuit\n4"); //add D5,S10,E30
+
+            attack = game.buildAttack();
+
+        }
+
+        @Test
+        @DisplayName("Test attack contents match expectations")
+        public void RESP_22_test_01(){
+            ArrayList<AdventureCard> expectedCards = new ArrayList<>();
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Dagger,5));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Sword,10));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Excalibur,30));
+
+            assertEquals(expectedCards, attack.getCards());
+        }
+
+        @Test
+        @DisplayName("Test players hand shrinks accordingly")
+        public void RESP_22_test_02(){
+            assertEquals(7, player.getHandSize());
+        }
+
+
+        @Test
+        @DisplayName("Test player is prompted correctly")
+        public void RESP_22_test_03(){
+
+            //check hand display
+            assertTrue(output.toString().contains("10 - E30"));
+            assertTrue(output.toString().contains("9 - E30"));
+            assertTrue(output.toString().contains("8 - E30"));
+            assertTrue(output.toString().contains("7 - B15"));
+
+            assertTrue(output.toString().contains("Choose a card to add to your attack:"));
+        }
+
+    }
 }
 

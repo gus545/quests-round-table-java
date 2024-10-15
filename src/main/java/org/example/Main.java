@@ -350,4 +350,8 @@ public class Main {
         return quest;
     }
 
+    public Attack buildAttack(){
+        return new Attack();
+    }
+
 }
