@@ -320,8 +320,18 @@ public class Main {
         while(true){
             displayPlayerHand(currentPlayer);
             String playerInput = promptInput("Choose a card to add to the stage (or type \"Quit\" to stop).");
-            if(playerInput.equalsIgnoreCase("quit")) return chosenCards;
-            else chosenCards.add(sponsor.discardCard(Integer.parseInt(playerInput)-1));
+            if(playerInput.equalsIgnoreCase("quit")) {
+                pw.println("Stage 1 completed");
+                return chosenCards;
+            }
+            else {
+                int index = Integer.parseInt(playerInput)-1;
+                if(Stage.checkNewCardValidity(chosenCards, sponsor.getHand().get(index),pw)) {
+                    AdventureCard newCard = sponsor.discardCard(index);
+                    pw.println(newCard+ " added to stage.");
+                    chosenCards.add(newCard);
+                }
+            }
 
         }
     }
