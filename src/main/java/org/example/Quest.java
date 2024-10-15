@@ -55,9 +55,20 @@ public class Quest {
         for(Player p: s) eligible.put(p,false);
     }
 
+    public void removeParticipants(Player p){
+        eligible.put(p,false);
+    }
+
     public void displayParticipants(PrintWriter pw){
         StringBuilder out = new StringBuilder("Remaining participants:");
         for(Player p : getParticipants()) out.append(" ").append(p);
         pw.println(out);
     }
+
+    public List<Integer> getIneligibleIds() {
+        ArrayList<Integer> out = new ArrayList<>();
+        for(Player p : getIneligible()) out.add(p.getId()-1);
+        return out;
+    }
+
 }

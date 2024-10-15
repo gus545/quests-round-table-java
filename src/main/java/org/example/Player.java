@@ -52,6 +52,8 @@ public class Player implements Comparable<Player> {
         else shields-=n;
     }
 
+    public int getId(){ return id;}
+
     @Override
     public int compareTo(Player other){
         return Integer.compare(this.id,other.id);

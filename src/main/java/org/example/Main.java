@@ -305,7 +305,7 @@ public class Main {
         String playerInput;
         do{
             displayPlayerHand(currentPlayer);
-            playerInput = promptInput("Would you (" +getPlayer(currentPlayer)+ ") like to sponsor this quest?");
+            playerInput = promptInput("Would you (" +getPlayer(currentPlayer)+ ") like to sponsor this quest?(y/n)");
             playerInput = playerInput.strip().toLowerCase();
             if(playerInput.equals("y") || playerInput.equals("yes")) return true;
             endCurrentHotseat();
@@ -380,7 +380,26 @@ public class Main {
     public PrintWriter getPw(){return pw;}
 
     public void promptParticipants(){
+        List<Integer> ineligible = currentQuest.getIneligibleIds();
+        if(ineligible.size()<NUM_PLAYERS){
+            giveHotseat(getNextPlayer(ineligible));
+            int start = currentPlayer;
+            do{
+                displayPlayerHand(currentPlayer);
+                String playerInput = promptInput("Will you participate in this quest stage? (" + getPlayer(currentPlayer)+")").strip();
+                if(playerInput.equalsIgnoreCase("y")){
+                    getPlayer(currentPlayer).addToHand(drawAdventureCard());
+                    if(getPlayer(currentPlayer).getHandSize()>12) trimPlayerHand(currentPlayer);
+                }else {
+                    pw.println("Removing " + getPlayer(currentPlayer)+ " from current quest...");
+                    currentQuest.removeParticipants(getPlayer(currentPlayer));
+                }
 
+                endCurrentHotseat();
+                giveHotseat(getNextPlayer(ineligible));
+
+            }while(start!=currentPlayer);
+        }
     }
 
 }
