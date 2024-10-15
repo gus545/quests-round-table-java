@@ -1198,5 +1198,53 @@ public class MainTest {
         }
 
     }
+
+    @Nested
+    class RESP23Tests{
+        Attack attack;
+        Player player;
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+
+            player = game.getPlayer(0);
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+
+
+
+            input.println("4\n4\n1\n6\nQuit"); //add D5,D5,F5,B15 if not blocked
+
+            attack = game.buildAttack();
+        }
+
+        @Test
+        @DisplayName("Test attack has no foes or duplicates")
+        public void RESP_23_test_01(){
+            ArrayList<AdventureCard> expectedCards = new ArrayList<>();
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Dagger,5));
+            expectedCards.add(new AdventureCard(AdventureCard.Type.Sword,10));
+
+            assertEquals(expectedCards, attack.getCards());
+        }
+
+        @Test
+        @DisplayName("Test proper explanations are given")
+        public void RESP_23_test_02(){
+            System.out.println(output);
+            assertTrue(output.toString().contains("You cannot add duplicate cards to an attack."));
+            assertTrue(output.toString().contains("You cannot add foe cards to an attack."));
+        }
+
+    }
 }
 
