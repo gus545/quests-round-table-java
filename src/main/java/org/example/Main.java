@@ -329,6 +329,7 @@ public class Main {
                 pw.println(getPlayer(currentPlayer) + " has agreed to sponsor the quest.");
                 return true;
             }
+            pw.println(getPlayer(currentPlayer) + " has declined to sponsor the quest.");
             endCurrentHotseat();
             giveHotseat(getNextPlayer(new ArrayList<>()));
         } while (currentPlayer != start);
