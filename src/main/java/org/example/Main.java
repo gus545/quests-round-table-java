@@ -402,7 +402,18 @@ public class Main {
         }
     }
     public List<Attack> promptAttacks(){
-        return new ArrayList<>();
+        ArrayList<Attack> attacks = new ArrayList<>();
+        List<Integer> ineligible = currentQuest.getIneligibleIds();
+
+        int start = currentPlayer;
+
+        do{
+           attacks.add(buildAttack());
+           endCurrentHotseat();
+           giveHotseat(getNextPlayer(ineligible));
+
+        }while(start!=currentPlayer);
+        return attacks;
     }
 
     public void setQuest(Quest q){
