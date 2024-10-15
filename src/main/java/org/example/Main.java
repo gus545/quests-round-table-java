@@ -351,7 +351,17 @@ public class Main {
     }
 
     public Attack buildAttack(){
-        return new Attack();
+        Player player = getPlayer(currentPlayer);
+        Attack attack = new Attack(player);
+        String playerInput;
+        while (true){
+            displayPlayerHand(currentPlayer);
+            playerInput = promptInput("Choose a card to add to your attack:");
+            if (playerInput.equalsIgnoreCase("quit")) break;
+            int index = Integer.parseInt(playerInput)-1;
+            attack.addCard(player.discardCard(index));
+        }
+        return attack;
     }
 
 }
