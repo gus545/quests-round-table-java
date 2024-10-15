@@ -1240,9 +1240,71 @@ public class MainTest {
         @Test
         @DisplayName("Test proper explanations are given")
         public void RESP_23_test_02(){
-            System.out.println(output);
             assertTrue(output.toString().contains("You cannot add duplicate cards to an attack."));
             assertTrue(output.toString().contains("You cannot add foe cards to an attack."));
+        }
+
+    }
+
+    @Nested
+    class RESP24Tests{
+
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+
+            Player player;
+            player = game.getPlayer(0);
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.BattleAxe, 15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Excalibur, 30));
+
+
+
+            input.println("1\n6\n4\n6\n7\nQuit"); //add fail to add F5, then add D5,S10,H10,E30
+
+            game.buildAttack();
+        }
+
+        @Test
+        @DisplayName("Test displaying value and cards at each iteration")
+        public void RESP_24_test_01(){
+
+            assertTrue(output.toString().contains("Current attack: "));
+            assertTrue(output.toString().contains("Current value: 0"));
+
+            assertTrue(output.toString().contains("Current attack: S10"));
+            assertTrue(output.toString().contains("Current value: 10"));
+
+
+            assertTrue(output.toString().contains("Current attack: D5 S10"));
+            assertTrue(output.toString().contains("Current value: 15"));
+
+            assertTrue(output.toString().contains("Current attack: D5 S10 H10"));
+            assertTrue(output.toString().contains("Current value: 25"));
+
+
+            assertTrue(output.toString().contains("Current attack: D5 S10 H10 E30"));
+            assertTrue(output.toString().contains("Current value: 55"));
+
+
+
+        }
+
+
+        @Test
+        @DisplayName("Test displaying at end")
+        public void RESP_24_test_02(){
+            assertTrue(output.toString().contains("Total attack: D5 S10 H10 E30"));
+            assertTrue(output.toString().contains("Total value: 55"));
         }
 
     }
