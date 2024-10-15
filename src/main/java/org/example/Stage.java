@@ -21,12 +21,7 @@ public class Stage{
 
     public boolean checkNewCardValidity(AdventureCard newCard, PrintWriter pw){
         if(newCard.getType()== AdventureCard.Type.Foe){
-            boolean containsFoe = false;
-            for (AdventureCard c : cards) if (c.getType()==AdventureCard.Type.Foe) {
-                containsFoe = true;
-                break;
-            }
-            if (containsFoe) {
+            if (containsFoe()) {
                 pw.println(newCard+ " is invalid.  Only one foe card allowed.");
                 return false;
             }
@@ -46,14 +41,23 @@ public class Stage{
        return out.toString();
     }
     public String getStageValueString(){
-        int sum = 0;
-        for(AdventureCard c : cards) sum+=c.getValue();
-        return " " + sum;
+        return " " + getValue();
     }
 
     public ArrayList<AdventureCard> getCards(){return cards;}
 
     public int getValue(){
-        return 0;
+        int sum = 0;
+        for(AdventureCard c : cards) sum+=c.getValue();
+        return sum;
+    }
+
+    public boolean containsFoe(){
+        boolean containsFoe = false;
+        for (AdventureCard c : cards) if (c.getType()==AdventureCard.Type.Foe) {
+            containsFoe = true;
+            break;
+        }
+        return containsFoe;
     }
 }

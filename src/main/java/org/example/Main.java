@@ -323,8 +323,14 @@ public class Main {
             pw.println("Current stage value:" + stage.getStageValueString());
             String playerInput = promptInput("Choose a card to add to the stage (or type \"Quit\" to stop).");
             if(playerInput.equalsIgnoreCase("quit")) {
-                pw.println("Stage + + completed");
-                return stage;
+                if(!stage.containsFoe()) pw.println("Stage " + level + " cannot be completed.  A stage cannot be empty.");
+                else if(stage.getValue()<= max) pw.println("Stage " + level + " cannot be completed.  Insufficient value for this stage.");
+                else{
+                    pw.println("Stage " + level + " completed" );
+                    pw.println("Stage cards:" + stage.getStageCardString());
+                    pw.println("Stage value:" + stage.getStageValueString());
+                    return stage;
+                }
             }
             else {
                 int index = Integer.parseInt(playerInput)-1;
@@ -339,7 +345,9 @@ public class Main {
     }
 
     public Quest buildQuest(){
-        return new Quest();
+        Quest quest = new Quest(currentStages);
+        for(int i = 1; i<=currentStages; i++) quest.addStage(getSponsorChoices(i, quest.getMax()));
+        return quest;
     }
 
 }
