@@ -319,6 +319,8 @@ public class Main {
         Player sponsor = getPlayer(getCurrentPlayer());
         while(true){
             displayPlayerHand(currentPlayer);
+            pw.println(Stage.getStageCardString(chosenCards));
+            pw.println(Stage.getStageValueString(chosenCards));
             String playerInput = promptInput("Choose a card to add to the stage (or type \"Quit\" to stop).");
             if(playerInput.equalsIgnoreCase("quit")) {
                 pw.println("Stage 1 completed");
