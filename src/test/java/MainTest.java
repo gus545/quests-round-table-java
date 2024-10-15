@@ -1021,6 +1021,53 @@ public class MainTest {
             assertTrue(output.toString().contains("F20 is invalid.  Only one foe card allowed."));
             assertTrue(output.toString().contains("D5 is invalid.  No duplicates allowed."));
         }
+    }
+
+    @Nested
+    class RESP20Tests{
+
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(0);
+
+            Player player = game.getPlayer(0);
+
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+
+            //assume P1 is sponsor
+            input.println("12\n1\n7\nQuit\n");//add stage cards out of order
+            ArrayList<AdventureCard> actualHand = game.getSponsorChoices();
+        }
+
+        @Test
+        @DisplayName("Test that stage contents are sorted and displayed correctly")
+        public void RESP_20_test_01(){
+            assertTrue(output.toString().contains("Current stage cards:"));
+            assertTrue(output.toString().contains("Current stage cards: H10"));
+            assertTrue(output.toString().contains("Current stage cards: F5 H10"));
+            assertTrue(output.toString().contains("Current stage cards: F5 D5 H10"));
+        }
+
+        @Test
+        @DisplayName("Test that stage total value is calculated and displayed correctly")
+        public void RESP_20_test_02(){
+            assertTrue(output.toString().contains("Current stage value: 0"));
+            assertTrue(output.toString().contains("Current stage value: 10"));
+            assertTrue(output.toString().contains("Current stage value: 15"));
+            assertTrue(output.toString().contains("Current stage value: 20"));
+        }
 
     }
 }
