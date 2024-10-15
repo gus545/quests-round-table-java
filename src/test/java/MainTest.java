@@ -502,6 +502,14 @@ public class MainTest {
         public void RESP_07_test_04(){
             assertEquals(2, game.getAdventureDiscardSize(), "Adventure discard pile should be 2");
         }
+
+        @Test
+        @DisplayName("Test if discarded card is correctly displayed")
+        public void RESP_07_test_05(){
+            assertTrue(output.toString().contains("P1 discarded a F5 card"), "Should say p1 discarded f5");
+            assertTrue(output.toString().contains("P1 discarded a S10 card"), "Should say p1 discarded s10");
+
+        }
     }
 
     @Nested
