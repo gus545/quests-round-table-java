@@ -371,4 +371,10 @@ public class Main {
         return attack;
     }
 
+    public Quest getCurrentQuest(){
+        return new Quest(0);
+    }
+
+    public PrintWriter getPw(){return pw;}
+
 }

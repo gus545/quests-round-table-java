@@ -3,7 +3,7 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Comparable<Player> {
 
     private static int nextId = 1;
 
@@ -50,6 +50,11 @@ public class Player {
     public void deductShields(int n) {
         if (shields < n) shields = 0;
         else shields-=n;
+    }
+
+    @Override
+    public int compareTo(Player other){
+        return Integer.compare(this.id,other.id);
     }
 
     @Override

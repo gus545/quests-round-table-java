@@ -5,9 +5,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -1307,6 +1305,108 @@ public class MainTest {
             assertTrue(output.toString().contains("Total value: 55"));
         }
 
+    }
+
+    @Nested
+    class RESP25Tests{
+
+        Quest quest;
+
+        @BeforeEach
+        public void test_setup(){
+            input.println();
+            game.giveHotseat(2);
+
+            game.overwriteEventDeck(0,new EventCard(4));
+
+            Player player = game.getPlayer(0);
+
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,15));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,20));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Foe,40));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Dagger,5));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Sword,10));
+            player.addToHand(new AdventureCard(AdventureCard.Type.Horse,10));
+
+
+            //add F5, then D5 for first stage
+            input.println("1\n7\nQuit");
+
+            //try to add F10, then quit, fail, then add S10, then quit for second stage
+            input.println("2\nQuit\n7\nQuit");
+
+            //try to add empty stage, fail, then add F15,H10
+            input.println("Quit\n2\n7\nQuit");
+
+            //add F40
+            input.println("4\nQuit");
+
+            quest = game.buildQuest();
+
+        }
+
+        @Test
+        @DisplayName("Check initial eligible participants is correct (sponsor should not be included)")
+        public void RESP_25_test_01(){
+            Set<Player> participants = game.getCurrentQuest().getParticipants();
+
+            Set<Player> expected = new TreeSet<>();
+            expected.add(game.getPlayer(0));
+            expected.add(game.getPlayer(1));
+            expected.add(game.getPlayer(3));
+
+            assertEquals(expected, participants);
+        }
+
+        @Test
+        @DisplayName("Check participants is correct after removing some")
+        public void RESP_25_test_02(){
+            Set<Player> remove = new HashSet<>();
+            remove.add(game.getPlayer(0));
+            remove.add(game.getPlayer(2));
+            remove.add(game.getPlayer(3));
+
+            game.getCurrentQuest().removeParticipants(remove);
+
+            Set<Player> expected = new TreeSet<>();
+            expected.add(game.getPlayer(1));
+
+            assertEquals(expected, game.getCurrentQuest().getParticipants());
+        }
+
+        @Test
+        @DisplayName("Check list of ineligible participants is correct")
+        public void RESP_25_test_03(){
+            Set<Player> expected = new TreeSet<>();
+            expected.add(game.getPlayer(2));
+
+            assertEquals(expected, game.getCurrentQuest().getIneligible());
+
+            Set<Player> remove = new HashSet<>();
+            remove.add(game.getPlayer(0));
+            remove.add(game.getPlayer(2));
+            remove.add(game.getPlayer(3));
+
+            game.getCurrentQuest().removeParticipants(remove);
+
+            expected.add(game.getPlayer(0));
+            expected.add(game.getPlayer(3));
+
+            assertEquals(expected, game.getCurrentQuest().getIneligible());
+        }
+
+        @Test
+        @DisplayName("Test eligible players are displayed correctly")
+        public void RESP_25_test_04(){
+            game.getCurrentQuest().displayParticipants(game.getPw());
+            assertTrue(output.toString().contains("Remaining participants: P1 P2 P4"));
+        }
     }
 }
 

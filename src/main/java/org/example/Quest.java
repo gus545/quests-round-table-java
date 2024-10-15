@@ -1,7 +1,10 @@
 package org.example;
 
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Quest {
 
@@ -24,4 +27,14 @@ public class Quest {
 
     public int getMax(){ return max;}
 
+    public TreeSet<Player> getParticipants(){ return new TreeSet<>();}
+
+    public TreeSet<Player> getIneligible(){return new TreeSet<>();}
+
+    public void removeParticipants(Set<Player> s){
+    }
+
+    public void displayParticipants(PrintWriter pw){
+
+    }
 }
