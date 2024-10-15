@@ -1552,7 +1552,7 @@ public class MainTest {
 
             game.setQuest(new Quest(4,game.getPlayers(), game.getPlayer(2)));
 
-            input.println("1\n1\nQuit\n\n\n1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nquit\n\n\n");
+            input.println("1\n1\n1\n1\nQuit\n\n\n1\n1\n1\nQuit\n\n\n1\n1\nQuit\n\n\n");
 
 
             attacks = game.promptAttacks();
@@ -1579,6 +1579,14 @@ public class MainTest {
             assertEquals(expected,actual);
         }
 
+        @Test
+        @DisplayName("Test attacks are prompted in correct order")
+        public void RESP_27_test_03(){
+            List<Integer> expected = new ArrayList<>(Arrays.asList(1,2,4));
+            List<Integer> actual = new ArrayList<>();
+            for(Attack a : attacks) actual.add(a.getPlayer().getId());
+            assertEquals(expected,actual);
+        }
     }
 
     @Nested
