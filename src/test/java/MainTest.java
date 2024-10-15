@@ -937,7 +937,7 @@ public class MainTest {
 
             //assume P1 is sponsor
             input.println("1\n7\n8\nQuit\n9\n");
-            actualHand = game.getSponsorChoices();
+            actualHand = game.getSponsorChoices(1).getCards();
         }
 
         @Test
@@ -1000,7 +1000,7 @@ public class MainTest {
 
             //assume P1 is sponsor
             input.println("1\n5\n7\n7\n8\nQuit\n");//add F5,F20,D5,D5,S10
-            actualHand = game.getSponsorChoices();
+            actualHand = game.getSponsorChoices(1).getCards();
         }
 
         @Test
@@ -1048,7 +1048,7 @@ public class MainTest {
 
             //assume P1 is sponsor
             input.println("12\n1\n7\nQuit\n");//add stage cards out of order
-            ArrayList<AdventureCard> actualHand = game.getSponsorChoices();
+            ArrayList<AdventureCard> actualHand = game.getSponsorChoices(1).getCards();
         }
 
         @Test

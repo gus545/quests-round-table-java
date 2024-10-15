@@ -314,24 +314,24 @@ public class Main {
         return false;
     }
 
-    public ArrayList<AdventureCard> getSponsorChoices() {
-        ArrayList<AdventureCard> chosenCards = new ArrayList<>();
+    public Stage getSponsorChoices(int level) {
+        Stage stage = new Stage(level);
         Player sponsor = getPlayer(getCurrentPlayer());
         while(true){
             displayPlayerHand(currentPlayer);
-            pw.println(Stage.getStageCardString(chosenCards));
-            pw.println(Stage.getStageValueString(chosenCards));
+            pw.println("Current stage cards:" + stage.getStageCardString());
+            pw.println("Current stage value:" + stage.getStageValueString());
             String playerInput = promptInput("Choose a card to add to the stage (or type \"Quit\" to stop).");
             if(playerInput.equalsIgnoreCase("quit")) {
-                pw.println("Stage 1 completed");
-                return chosenCards;
+                pw.println("Stage + + completed");
+                return stage;
             }
             else {
                 int index = Integer.parseInt(playerInput)-1;
-                if(Stage.checkNewCardValidity(chosenCards, sponsor.getHand().get(index),pw)) {
+                if(stage.checkNewCardValidity(sponsor.getHand().get(index),pw)) {
                     AdventureCard newCard = sponsor.discardCard(index);
                     pw.println(newCard+ " added to stage.");
-                    chosenCards.add(newCard);
+                    stage.addCard(newCard);
                 }
             }
 

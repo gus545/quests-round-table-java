@@ -1,14 +1,28 @@
 package org.example;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Stage{
 
-    public static boolean checkNewCardValidity(List<AdventureCard> currentCards, AdventureCard newCard, PrintWriter pw){
+    private ArrayList<AdventureCard> cards;
+    private int level;
+
+    public Stage(int level){
+        this.level = level;
+        cards = new ArrayList<>();
+    }
+
+    public void addCard(AdventureCard c){
+        cards.add(c);
+        cards.sort(new AdventureCardComparator());
+    }
+
+    public boolean checkNewCardValidity(AdventureCard newCard, PrintWriter pw){
         if(newCard.getType()== AdventureCard.Type.Foe){
             boolean containsFoe = false;
-            for (AdventureCard c : currentCards) if (c.getType()==AdventureCard.Type.Foe) {
+            for (AdventureCard c : cards) if (c.getType()==AdventureCard.Type.Foe) {
                 containsFoe = true;
                 break;
             }
@@ -19,26 +33,24 @@ public class Stage{
             else{
                 return true;
             }
-        }else if(currentCards.contains(newCard)){
+        }else if(cards.contains(newCard)){
             pw.println(newCard+" is invalid.  No duplicates allowed.");
             return false;
         }else return true;
 
     }
 
-    public static String getStageCardString(List<AdventureCard> cards){
-        cards.sort(new AdventureCardComparator());
-        StringBuilder out = new StringBuilder("Current stage cards:");
-
-        for (AdventureCard c : cards){
-            out.append(" ").append(c);
-        }
-        return out.toString();
+    public String getStageCardString(){
+       StringBuilder out = new StringBuilder();
+       for (AdventureCard c : cards) out.append(" ").append(c);
+       return out.toString();
     }
-    public static String getStageValueString(List<AdventureCard> cards){
+    public String getStageValueString(){
         int sum = 0;
         for(AdventureCard c : cards) sum+=c.getValue();
-        return "Current stage value: " + sum;
+        return " " + sum;
     }
+
+    public ArrayList<AdventureCard> getCards(){return cards;}
 
 }
