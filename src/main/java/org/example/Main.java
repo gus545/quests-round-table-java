@@ -359,7 +359,10 @@ public class Main {
             playerInput = promptInput("Choose a card to add to your attack:");
             if (playerInput.equalsIgnoreCase("quit")) break;
             int index = Integer.parseInt(playerInput)-1;
-            attack.addCard(player.discardCard(index));
+            if(attack.checkCardValidity(player.getHand().get(index),pw)){
+                pw.println(player.getHand().get(index) + " added to attack.");
+                attack.addCard(player.discardCard(index));
+            }
         }
         return attack;
     }
