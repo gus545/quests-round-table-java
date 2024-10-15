@@ -2142,6 +2142,8 @@ public class MainTest {
             assertEquals(expectedP4Hand,game.getPlayer(3).getHand());
 
             assertEquals(12, game.getPlayer(1).getHandSize());
+
+            System.out.println(output);
         }
     }
 }
