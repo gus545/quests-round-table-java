@@ -19,6 +19,11 @@ public class Deck<T> {
         deckSize++;
     }
 
+    public void addCards(List<T> cards){
+        this.cards.addAll(cards);
+        deckSize += cards.size();
+    }
+
     public T drawCard(){
 
         T card = cards.removeFirst();

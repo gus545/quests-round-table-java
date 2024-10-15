@@ -424,5 +424,9 @@ public class Main {
 
     public void resolveStage(int stage, List<Attack> attacks){
         currentQuest.resolveAttack(stage,attacks,pw);
+        for(Attack a: attacks){
+            adventureDiscard.addCards(a.getCards());
+        }
     }
+
 }
