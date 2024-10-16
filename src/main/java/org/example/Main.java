@@ -15,13 +15,15 @@ public class Main {
 
     public void gameLoop(){
         giveHotseat(0);
-        while (true){
+        while (true){;
             pullNextEventCard();
             handleCurrentEvent();
             if(!getWinners().isEmpty()){
                 displayWinners(getWinners());
                 break;
             }
+            endCurrentHotseat();
+            giveHotseat(getNextPlayer(new ArrayList<>()));
         }
     }
 
