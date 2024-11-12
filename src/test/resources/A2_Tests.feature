@@ -33,8 +33,14 @@ Feature: Game of Quests
       | B15 | H10 | L20 |     |
       | D5  | S10 | L20 | E30 |
     And the attacks are resolved and the following players complete the quest: "4"
-    And P3 has 0 shields
-    And P4 has 4 shields
     And P3 has the following hand: "F5 F5 F15 F30 S10"
     And P4 has the following hand: "F15 F15 F40 L20"
+    And P1 has 0 shields
+    And P2 has 0 shields
+    And P3 has 0 shields
+    And P4 has 4 shields
+    And P1 has 9 cards in hand
     And P2 has 12 cards in hand
+    And P3 has 5 cards in hand
+    And P4 has 4 cards in hand
+
