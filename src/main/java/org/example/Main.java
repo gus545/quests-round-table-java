@@ -1,6 +1,9 @@
 package org.example;
 
+import jdk.jfr.Event;
+
 import java.io.PrintWriter;
+import java.sql.Array;
 import java.util.*;
 
 public class Main {
@@ -9,7 +12,6 @@ public class Main {
 
     public static void main(String[] args) {
         Main game = new Main(new PrintWriter(System.out), new Scanner(System.in));
-        game.dealCards(12);
         game.gameLoop();
     }
 
@@ -38,17 +40,28 @@ public class Main {
     int currentStages;
 
     public Main(PrintWriter pw, Scanner sc){
+        this(pw,sc, new ArrayList<AdventureCard>(), new ArrayList<EventCard>());
+    }
+
+    public Main(PrintWriter pw, Scanner sc, List<AdventureCard> aDeck, List<EventCard> eDeck){
         adventureDeck = new Deck<>();
         initializeAdventureDeck();
 
+        //possible rig adventure deck;
+        rigAdventureDeck(aDeck);
+
         eventDeck = new Deck<>();
         initializeEventDeck();
+
+        //possibly rig event deck
+        rigEventDeck(eDeck);
 
         adventureDiscard = new Deck<>();
         eventDiscard = new Deck<>();
 
         players = new ArrayList<>();
         initializePlayers();
+        dealCards(12);
         currentPlayer = 0;
 
         currentEvent = null;
@@ -333,10 +346,11 @@ public class Main {
             if(playerInput.equals("y") || playerInput.equals("yes")) {
                 pw.println(getPlayer(currentPlayer) + " has agreed to sponsor the quest.");
                 return true;
-            }
-            pw.println(getPlayer(currentPlayer) + " has declined to sponsor the quest.");
-            endCurrentHotseat();
-            giveHotseat(getNextPlayer(new ArrayList<>()));
+            }else if(playerInput.equals("n") || playerInput.equals("no")) {
+                pw.println(getPlayer(currentPlayer) + " has declined to sponsor the quest.");
+                endCurrentHotseat();
+                giveHotseat(getNextPlayer(new ArrayList<>()));
+            }else continue;
         } while (currentPlayer != start);
 
         pw.println("All players have declined to sponsor. Moving on...");
@@ -360,6 +374,8 @@ public class Main {
                     pw.println("Stage value:" + stage.getStageValueString());
                     return stage;
                 }
+            }else if(playerInput.equals("")){
+                continue;
             }
             else {
                 int index = Integer.parseInt(playerInput)-1;
@@ -390,7 +406,12 @@ public class Main {
             pw.println("Current value: "+attack.getValue());
             playerInput = promptInput("Choose a card to add to your attack:");
             if (playerInput.equalsIgnoreCase("quit")) break;
-            int index = Integer.parseInt(playerInput)-1;
+            int index;
+            try {
+                index = Integer.parseInt(playerInput)-1;
+            } catch (NumberFormatException e) {
+                continue;
+            }
             if(attack.checkCardValidity(player.getHand().get(index),pw)){
                 pw.println(player.getHand().get(index) + " added to attack.");
                 attack.addCard(player.discardCard(index));
@@ -444,6 +465,10 @@ public class Main {
 
     public void setQuest(Quest q){
         currentQuest = q;
+    }
+
+    public int getCurrentStages() {
+        return currentStages;
     }
 
     public List<Player> getPlayers(){return players;}

@@ -61,6 +61,13 @@ public class Player implements Comparable<Player> {
 
     public void addShields(int n){shields+=n;}
 
+    public int getCardIndex( String cardString){
+
+        for(int i =0; i<getHandSize();i++) if(hand.get(i).toString().equals(cardString)) return i;
+
+        return -1;
+    }
+
     @Override
     public int compareTo(Player other){
         return Integer.compare(this.id,other.id);
